@@ -1,0 +1,2256 @@
+local Input = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local MainPlayer = Players.LocalPlayer
+
+setfpscap(333)
+
+--[[
+-- loader will come later
+local waiting = Drawing.new("Text")
+waiting.Visible = true
+waiting.Transparency = 1
+waiting.Color = Color3.fromRGB(150, 60, 190)
+waiting.Size = 50
+waiting.Text = "i dont have a loader yet lmao"
+waiting.Center = true
+waiting.Outline = true
+waiting.OutlineColor = Color3.fromRGB(90, 20, 130)
+waiting.Font = 3
+waiting.Position = Vector2.new(200,100)
+
+wait(12-time())-- mate wtf
+wait(3)
+waiting:Remove()
+]]
+
+if not isfolder("bbconfigs") then
+	makefolder("bbconfigs")
+end
+
+for i = 1, 6 do 
+	if not isfile("bbconfigs/config"..tostring(i)..".bb") then 
+		writefile("bbconfigs/config"..tostring(i)..".bb", "")
+	end
+end
+
+local function table_contains(table, element)
+	for _, value in pairs(table) do
+		if value == element then
+			return true
+		end
+	end
+	return false
+end
+
+drawcount = 0
+
+local function draw_filled_rect(visible, pos_x, pos_y, width, height, r, g, b, a, tablename)
+	drawcount = drawcount + 1
+	varname = tostring(drawcount)
+	tablename[varname] = Drawing.new("Square")
+	tablename[varname].Visible = visible
+	tablename[varname].Position = Vector2.new(pos_x, pos_y)
+	tablename[varname].Size = Vector2.new(width, height)
+	tablename[varname].Color = Color3.fromRGB(r, g, b)
+	tablename[varname].Filled = true
+	tablename[varname].Thickness = 0
+	tablename[varname].Transparency = a / 255
+end
+
+local function draw_outlined_rect(visible, pos_x, pos_y, width, height, r, g, b, a, tablename)
+	drawcount = drawcount + 1
+	varname = tostring(drawcount)
+	tablename[varname] = Drawing.new("Square")
+	tablename[varname].Visible = visible
+	tablename[varname].Position = Vector2.new(pos_x, pos_y)
+	tablename[varname].Size = Vector2.new(width, height)
+	tablename[varname].Color = Color3.fromRGB(r, g, b)
+	tablename[varname].Filled = false
+	tablename[varname].Thickness = 0
+	tablename[varname].Transparency = a / 255
+end
+
+local function draw_text(text, font, visible, pos_x, pos_y, size, centered, r, g, b, a, tablename)
+	drawcount = drawcount + 1
+	varname = tostring(drawcount)
+	tablename[varname] = Drawing.new("Text")
+	tablename[varname].Text = text
+	tablename[varname].Visible = visible
+	tablename[varname].Position = Vector2.new(pos_x, pos_y)
+	tablename[varname].Size = size
+	tablename[varname].Center = centered
+	tablename[varname].Color = Color3.fromRGB(r, g, b)
+	tablename[varname].Transparency = a / 255
+	tablename[varname].Outline = false
+	tablename[varname].Font = font
+end
+
+local function draw_outlined_text(text, font, visible, pos_x, pos_y, size, centered, r, g, b, a, r2, g2, b2, tablename)
+	drawcount = drawcount + 1
+	varname = tostring(drawcount)
+	tablename[varname] = Drawing.new("Text")
+	tablename[varname].Text = text
+	tablename[varname].Visible = visible
+	tablename[varname].Position = Vector2.new(pos_x, pos_y)
+	tablename[varname].Size = size
+	tablename[varname].Center = centered
+	tablename[varname].Color = Color3.fromRGB(r, g, b)
+	tablename[varname].Transparency = a / 255
+	tablename[varname].Outline = true
+	tablename[varname].Font = font
+	tablename[varname].OutlineColor = Color3.fromRGB(r2, g2, b2)
+end
+
+local function draw_line(visible, thickness, start_x, start_y, end_x, end_y, r, g, b, a, tablename)
+	drawcount = drawcount + 1
+	varname = tostring(drawcount)
+	tablename[varname] = Drawing.new("Line")
+	tablename[varname].Visible = visible
+	tablename[varname].Thickness = thickness
+	tablename[varname].From = Vector2.new(start_x, start_y)
+	tablename[varname].To = Vector2.new(end_x, end_y)
+	tablename[varname].Color = Color3.fromRGB(r, g, b)
+	tablename[varname].Transparency = a / 255
+end
+
+local function draw_circle(visible, pos_x, pos_y, size, r, g, b, a, tablename)
+	drawcount = drawcount + 1
+	varname = tostring(drawcount)
+	tablename[varname] = Drawing.new("Circle")
+	tablename[varname].Position = Vector2.new(pos_x, pos_y)
+	tablename[varname].Visible = visible
+	tablename[varname].Radius = size
+	tablename[varname].Thickness = 1
+	tablename[varname].NumSides = 20
+	tablename[varname].Color = Color3.fromRGB(r, g, b)
+	tablename[varname].Transparency = a / 255
+end
+
+local function draw_tri(visible, pa_x, pa_y, pb_x, pb_y, pc_x, pc_y, r, g, b, a, tablename)
+	drawcount = drawcount + 1
+	varname = tostring(drawcount)
+	tablename[varname] = Drawing.new("Triangle")
+	tablename[varname].Visible = visible
+	tablename[varname].Transparency = a/255
+	tablename[varname].Color = Color3.fromRGB(r, g, b)
+	tablename[varname].Thickness = 3.8
+	tablename[varname].PointA = Vector2.new(pa_x, pa_y)
+	tablename[varname].PointB = Vector2.new(pb_x, pb_y)
+	tablename[varname].PointC = Vector2.new(pc_x, pc_y)
+	tablename[varname].Filled = false
+end
+
+local function draw_filled_tri(visible, pa_x, pa_y, pb_x, pb_y, pc_x, pc_y, r, g, b, a, tablename)
+	drawcount = drawcount + 1
+	varname = tostring(drawcount)
+	tablename[varname] = Drawing.new("Triangle")
+	tablename[varname].Visible = visible
+	tablename[varname].Transparency = a/255
+	tablename[varname].Color = Color3.fromRGB(r, g, b)
+	tablename[varname].Thickness = 2
+	tablename[varname].PointA = Vector2.new(pa_x, pa_y)
+	tablename[varname].PointB = Vector2.new(pb_x, pb_y)
+	tablename[varname].PointC = Vector2.new(pc_x, pc_y)
+	tablename[varname].Filled = true
+end
+
+--[[
+local function create_notification_frame()
+	drawcount = 0
+	draw_filled_rect(true, omp.x, omp.y, omp.w, omp.h, 99, 54, 128, 255, renderednotification)
+	draw_outlined_rect(true, omp.x, omp.y, omp.w, omp.h, 25, 25, 25, 255, renderednotification)
+	draw_outlined_rect(true, omp.x + 1, omp.y + 1, omp.w - 2, omp.h - 2, 67, 67, 67, 255, renderednotification)
+	for i = 1, 3 do
+		draw_outlined_rect(true, omp.x + 1 + i, omp.y + 1 + i, omp.w - 2 - (i * 2), omp.h - 2 - (i * 2), 40, 40, 40, 255, renderednotification)
+	end
+	draw_outlined_rect(true, omp.x + 5, omp.y + 5, omp.w - 10, omp.h - 10, 67, 67, 67, 255, renderednotification)
+	draw_outlined_rect(true, omp.x + 6, omp.y + 6, omp.w - 12, omp.h - 12, 25, 25, 25, 255, renderednotification)
+	draw_outlined_rect(true, omp.x + 7, omp.y + 7, omp.w - 14, omp.h - 14, framecolor[1], framecolor[2], framecolor[3], 255, renderednotification)
+
+	for i, line in ipairs(framelines) do
+		draw_outlined_text(line, 2, true, omp.x + 10, omp.y, 13, false, 255, 255, 255, 255, 0, 0, 0, renderednotification)
+	end
+end
+]]
+
+--make notification function here pls
+
+
+local mouse = MainPlayer:GetMouse()
+local screen_w = mouse.ViewSizeX
+local screen_h = mouse.ViewSizeY + 72
+drawcount = 0
+
+local bbmenu = {}
+local mp = {
+	w = 603,
+	h = 450,
+	x = math.floor(screen_w/2 - 603/2),
+	y = math.floor(screen_h/2 - 450/2)
+}
+local tab = 1
+local menuclosing = false
+local menuopen = true
+local menualpha = 0
+
+drawcount = 0
+draw_filled_rect(true, mp.x, mp.y, mp.w, mp.h, 99, 54, 128, menualpha, bbmenu)
+
+-- aesthetic frames (laxative)
+draw_outlined_rect(true, mp.x, mp.y, mp.w, mp.h, 25, 25, 25, menualpha, bbmenu)
+draw_outlined_rect(true, mp.x + 1, mp.y + 1, mp.w - 2, mp.h - 2, 67, 67, 67, menualpha, bbmenu)
+for i = 1, 3 do
+	draw_outlined_rect(true, mp.x + 1 + i, mp.y + 1 + i, mp.w - 2 - (i * 2), mp.h - 2 - (i * 2), 40, 40, 40, menualpha, bbmenu)
+end
+draw_outlined_rect(true, mp.x + 5, mp.y + 5, mp.w - 10, mp.h - 10, 67, 67, 67, menualpha, bbmenu)
+draw_outlined_rect(true, mp.x + 6, mp.y + 6, mp.w - 12, mp.h - 12, 25, 25, 25, menualpha, bbmenu)
+draw_outlined_rect(true, mp.x + 7, mp.y + 7, mp.w - 14, mp.h - 14, 127, 72, 163, menualpha, bbmenu)
+
+-- inside of menu
+draw_outlined_rect(true, mp.x + 11, mp.y + 23, mp.w - 22, mp.h - 34, 127, 72, 163, menualpha, bbmenu)
+draw_outlined_rect(true, mp.x + 12, mp.y + 24, mp.w - 24, mp.h - 36, 25, 25, 25, menualpha, bbmenu)
+draw_outlined_rect(true, mp.x + 13, mp.y + 25, mp.w - 26, mp.h - 38, 67, 67, 67, menualpha, bbmenu)
+draw_filled_rect(true, mp.x + 14, mp.y + 26, mp.w - 28, mp.h - 40, 40, 40, 40, menualpha, bbmenu)
+draw_outlined_text("vvshaxx", 2, true, mp.x + 20, mp.y + 8, 13, false, 255, 255, 255, menualpha, 0, 0, 0, bbmenu)
+
+-- stupid tabs
+for i = 1, 5 do
+	draw_filled_rect(true, mp.x + 14 + ((i - 1) * 115), mp.y + 26, 115, 40, 50, 50, 50, menualpha, bbmenu)
+end
+for i = 1, 5 do
+	draw_outlined_rect(true, mp.x + 14 + ((i - 1) * 115), mp.y + 26, 115, 40, 60, 60, 60, menualpha, bbmenu)
+end
+draw_outlined_rect(true, mp.x + 14, mp.y + 66, 575, 370, 60, 60, 60, menualpha, bbmenu)
+for i = 1, 5 do
+	draw_outlined_rect(false, mp.x + 14 + ((i - 1) * 115) + 1, mp.y + 65, 113, 2, 40, 40, 40, menualpha, bbmenu)
+end
+
+--"how do i rename the tabs" -signal 2025
+draw_outlined_text("combat", 2, true, mp.x + 72, mp.y + 38, 13, true, 255, 255, 255, menualpha, 0, 0, 0, bbmenu)
+draw_outlined_text("visuals", 2, true, mp.x + 72 + 115, mp.y + 38, 13, true, 255, 255, 255, menualpha, 0, 0, 0, bbmenu)
+draw_outlined_text("esp", 2, true, mp.x + 72 + 115 * 2, mp.y + 38, 13, true, 255, 255, 255, menualpha, 0, 0, 0, bbmenu)
+draw_outlined_text("misc", 2, true, mp.x + 72 + 115 * 3, mp.y + 38, 13, true, 255, 255, 255, menualpha, 0, 0, 0, bbmenu)
+draw_outlined_text("settings", 2, true, mp.x + 72 + 115 * 4, mp.y + 38, 13, true, 255, 255, 255, menualpha, 0, 0, 0, bbmenu)
+
+local tab1 = {}
+local tab2 = {}
+local tab3 = {}
+local tab4 = {}
+local tab5 = {}
+
+local alltabs = {tab1, tab2, tab3, tab4, tab5}
+local function set_tab_visible(tab)
+	for k, v in pairs(alltabs) do
+		for k1, v1 in pairs(v) do
+			v1.Transparency = 1
+		end
+	end
+	if tab == 1 then
+		for k, v in pairs(alltabs) do
+			for k1, v1 in pairs(v) do
+				if v == tab1 then
+					v1.Visible = true
+				else
+					v1.Visible = false
+				end
+			end
+		end
+	elseif tab == 2 then
+		for k, v in pairs(alltabs) do
+			for k1, v1 in pairs(v) do
+				if v == tab2 then
+					v1.Visible = true
+				else
+					v1.Visible = false
+				end
+			end
+		end
+	elseif tab == 3 then
+		for k, v in pairs(alltabs) do
+			for k1, v1 in pairs(v) do
+				if v == tab3 then
+					v1.Visible = true
+				else
+					v1.Visible = false
+				end
+			end
+		end
+	elseif tab == 4 then
+		for k, v in pairs(alltabs) do
+			for k1, v1 in pairs(v) do
+				if v == tab4 then
+					v1.Visible = true
+				else
+					v1.Visible = false
+				end
+			end
+		end
+	elseif tab == 5 then
+		for k, v in pairs(alltabs) do
+			for k1, v1 in pairs(v) do
+				if v == tab5 then
+					v1.Visible = true
+				else
+					v1.Visible = false
+				end
+			end
+		end
+	end
+end
+
+
+local kt_mp = { -- keybinds + target + watermark menu pos
+	w = 210,
+	h = 325,
+	x = math.floor(screen_w/2 - 1272),--designed for my screen only LMAO
+	y = math.floor(screen_h/2 - 100/2)
+}
+
+local bbwatermark = {}--bbot never made this
+local bbstatuses = {}--bbot never made this
+local bbtargets = {}--bbot never made this
+
+-- FUCK YOU POTASSIUM STRING HANDLING
+bstatustext2 = "client -->\naim type : assisted\nauto shoot : true\npredictions : all\n\nserver -->\nanti aim : 180 treehouse\nfake lag : unchoked\nbutterfly : true\nspeedhack : gradual\nc strafe : true"
+bstatustext2continued = "exploits -->\nfreeze world: true\ndesync : true\ncheckpoint : logged\n\ngriefing -->\nstalk bot : closest\nalways infront : true\nchat spam : onhold"
+
+--this is fine though ^.^
+btargettext = "name : 20CHARS\nhealth : 100/100\nteam : none\nstatus : priority\nprediction : all\nvisible : true"
+
+--the keybinds
+drawcount = 0
+draw_filled_rect(true, omp.x, omp.y, omp.w, omp.h, 99, 54, 128, 255, bbstatuses)
+-- inside
+draw_outlined_rect(true, omp.x, omp.y, omp.w, omp.h, 25, 25, 25, 255, bbstatuses)
+draw_outlined_rect(true, omp.x + 1, omp.y + 1, omp.w - 2, omp.h - 2, 67, 67, 67, 255, bbstatuses)
+for i = 1, 3 do
+	draw_outlined_rect(true, omp.x + 1 + i, omp.y + 1 + i, omp.w - 2 - (i * 2), omp.h - 2 - (i * 2), 40, 40, 40, 255, bbstatuses)
+end
+draw_outlined_rect(true, omp.x + 5, omp.y + 5, omp.w - 10, omp.h - 10, 67, 67, 67, 255, bbstatuses)
+draw_outlined_rect(true, omp.x + 6, omp.y + 6, omp.w - 12, omp.h - 12, 25, 25, 25, 255, bbstatuses)
+draw_outlined_rect(true, omp.x + 7, omp.y + 7, omp.w - 14, omp.h - 14, 127, 72, 163, 255, bbstatuses)
+draw_outlined_rect(true, omp.x + 11, omp.y + 23, omp.w - 22, omp.h - 34, 127, 72, 163, 255, bbstatuses)
+draw_outlined_rect(true, omp.x + 12, omp.y + 24, omp.w - 24, omp.h - 36, 25, 25, 25, 255, bbstatuses)
+draw_outlined_rect(true, omp.x + 13, omp.y + 25, omp.w - 26, omp.h - 38, 67, 67, 67, 255, bbstatuses)
+draw_filled_rect(true, omp.x + 14, omp.y + 26, omp.w - 28, omp.h - 40, 40, 40, 40, 255, bbstatuses)
+draw_outlined_text("status", 2, true, omp.x + 20, omp.y + 8, 13, false, 255, 255, 255, 255, 0, 0, 0, bbstatuses)
+draw_outlined_text(bstatustext2, 2, true, omp.x + 20, omp.y + 30, 13, false, 255, 255, 255, 255, 0, 0, 0, bbstatuses)--ehh its fucked but it works LOL
+draw_outlined_text(bstatustext2continued, 2, true, omp.x + 20, omp.y + 185, 13, false, 255, 255, 255, 255, 0, 0, 0, bbstatuses)--ehh its fucked but it works LOL
+
+omp.w = 200
+omp.h = 130
+omp.x = math.floor(screen_w/2 + 1072)
+omp.y = math.floor(screen_h/2 - 50)
+
+--the target info
+drawcount = 0
+draw_filled_rect(true, omp.x, omp.y, omp.w, omp.h, 99, 54, 128, 255, bbtargets)
+draw_outlined_rect(true, omp.x, omp.y, omp.w, omp.h, 25, 25, 25, 255, bbtargets)
+draw_outlined_rect(true, omp.x + 1, omp.y + 1, omp.w - 2, omp.h - 2, 67, 67, 67, 255, bbtargets)
+for i = 1, 3 do
+	draw_outlined_rect(true, omp.x + 1 + i, omp.y + 1 + i, omp.w - 2 - (i * 2), omp.h - 2 - (i * 2), 40, 40, 40, 255, bbtargets)
+end
+draw_outlined_rect(true, omp.x + 5, omp.y + 5, omp.w - 10, omp.h - 10, 67, 67, 67, 255, bbtargets)
+draw_outlined_rect(true, omp.x + 6, omp.y + 6, omp.w - 12, omp.h - 12, 25, 25, 25, 255, bbtargets)
+draw_outlined_rect(true, omp.x + 7, omp.y + 7, omp.w - 14, omp.h - 14, 127, 72, 163, 255, bbtargets)
+-- inside
+draw_outlined_rect(true, omp.x + 11, omp.y + 23, omp.w - 22, omp.h - 34, 127, 72, 163, 255, bbtargets)
+draw_outlined_rect(true, omp.x + 12, omp.y + 24, omp.w - 24, omp.h - 36, 25, 25, 25, 255, bbtargets)
+draw_outlined_rect(true, omp.x + 13, omp.y + 25, omp.w - 26, omp.h - 38, 67, 67, 67, 255, bbtargets)
+draw_filled_rect(true, omp.x + 14, omp.y + 26, omp.w - 28, omp.h - 40, 40, 40, 40, 255, bbtargets)
+draw_outlined_text("target info", 2, true, omp.x + 20, omp.y + 8, 13, false, 255, 255, 255, 255, 0, 0, 0, bbtargets)
+draw_outlined_text(btargettext, 2, true, omp.x + 20, omp.y + 30, 13, false, 255, 255, 255, 255, 0, 0, 0, bbtargets)--ehh its fucked but it works LOL
+
+omp.w = 300
+omp.h = 31
+omp.x = math.floor(screen_w/2 - 1272)
+omp.y = math.floor(screen_h/2 - 89)
+
+--watermark
+drawcount = 0
+draw_filled_rect(true, omp.x, omp.y, omp.w, omp.h, 99, 54, 128, 255, bbwatermark)
+draw_outlined_rect(true, omp.x, omp.y, omp.w, omp.h, 25, 25, 25, 255, bbwatermark)
+draw_outlined_rect(true, omp.x + 1, omp.y + 1, omp.w - 2, omp.h - 2, 67, 67, 67, 255, bbwatermark)
+for i = 1, 3 do
+	draw_outlined_rect(true, omp.x + 1 + i, omp.y + 1 + i, omp.w - 2 - (i * 2), omp.h - 2 - (i * 2), 40, 40, 40, 255, bbwatermark)
+end
+draw_outlined_rect(true, omp.x + 5, omp.y + 5, omp.w - 10, omp.h - 10, 67, 67, 67, 255, bbwatermark)
+draw_outlined_rect(true, omp.x + 6, omp.y + 6, omp.w - 12, omp.h - 12, 25, 25, 25, 255, bbwatermark)
+draw_outlined_rect(true, omp.x + 7, omp.y + 7, omp.w - 14, omp.h - 14, 127, 72, 163, 255, bbwatermark)
+-- inside
+draw_outlined_text("vvshaxx | uid 1 | 999 fps | 1000 ping", 2, true, omp.x + 20, omp.y + 8, 13, false, 255, 255, 255, 255, 0, 0, 0, bbwatermark)
+
+local tab1pos = {}
+local tab2pos = {}
+local tab3pos = {}
+local tab4pos = {}
+local tab5pos = {}
+local allpostabs = {tab1pos, tab2pos, tab3pos, tab4pos, tab5pos}
+drawcount = 0
+dctn = 0 -- that means draw count table num
+
+local function add_group_box(text, x, y, width, height, tab, postable)
+	draw_outlined_rect(true, mp.x + 18 + x, mp.y + 75 + y, width, height, 25, 25, 25, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 18 + x, 75 + y}
+	
+	draw_outlined_rect(true, mp.x + 19 + x, mp.y + 76 + y, width - 2, height - 2, 60, 60, 60, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 19 + x, 76 + y}
+	
+	draw_text(text, 2, true, mp.x + 24 + x, mp.y + 63 + y, 13, false, 255, 255, 255, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 24 + x, 63 + y}
+end
+
+local function add_text(text, x, y, tab, postable)
+	draw_text(text, 2, true, mp.x + 18 + x, mp.y + 63 + y, 13, false, 255, 255, 255, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 18 + x, 63 + y}
+end
+
+toggles = {}
+local activetab = 0
+local function add_toggle(valuename, on, text, x, y, tab, postable, risky)
+	draw_outlined_rect(true, mp.x + 18 + x, mp.y + 63 + y, 16, 16, 60, 60, 60, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 18 + x, 63 + y}
+	
+	draw_outlined_rect(true, mp.x + 19 + x, mp.y + 64 + y, 14, 14, 25, 25, 25, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 19 + x, 64 + y}
+	
+	draw_outlined_rect(true, mp.x + 20 + x, mp.y + 65 + y, 12, 12, 60, 60, 60, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 20 + x, 65 + y}
+	
+	draw_filled_rect(true, mp.x + 21 + x, mp.y + 66 + y, 10, 10, 40, 40, 40, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 21 + x, 66 + y}
+	
+	for i = 1, 5 do
+		if tab == alltabs[i] then
+			activetab = i
+		end
+	end
+	
+	toggles[valuename] = {on, activetab, tab[tostring(drawcount - 1)], tab[tostring(drawcount)], 18 + x, 63 + y, 16, 16}
+	
+	textcolor_r = 255
+	textcolor_g = 255
+	textcolor_b = 255
+	if risky ~= nil then
+		textcolor_r = 228
+		textcolor_g = 76
+		textcolor_b = 76
+	end
+
+	draw_text(text, 2, true, mp.x + 38 + x, mp.y + 63 + y, 13, false, textcolor_r, textcolor_g, textcolor_b, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 38 + x, 63 + y}
+end
+
+sliders = {}
+local function add_slider(valuename, min, max, cur_value, text, x, y, tab, postable, xtra, stradd)
+	if cur_value < min then
+		cur_value = min
+	elseif cur_value > max then
+		cur_value = max
+	end
+
+    local addon = stradd ~= nil and stradd or ""
+
+	draw_text(text, 2, true, mp.x + 18 + x, mp.y + 63 + y, 13, false, 255, 255, 255, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 18 + x, 63 + y}
+	
+	draw_outlined_rect(true, mp.x + 18 + x, mp.y + 81 + y, 165 + xtra, 16, 60, 60, 60, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 18 + x, 81 + y}
+	
+	draw_outlined_rect(true, mp.x + 20 + x, mp.y + 83 + y, 165 + xtra - 4, 12, 60, 60, 60, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 20 + x, 83 + y}
+	
+	draw_filled_rect(true, mp.x + 20 + x, mp.y + 83 + y, (165 + xtra - 4) * ((cur_value - min) / (max - min)), 12, 99, 54, 128, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 20 + x, 83 + y}
+	
+	draw_outlined_rect(true, mp.x + 20 + x, mp.y + 83 + y, (165 + xtra - 4) * ((cur_value - min) / (max - min)), 12, 127, 72, 163, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 20 + x, 83 + y}
+	
+	draw_outlined_rect(true, mp.x + 19 + x, mp.y + 82 + y, 165 + xtra - 2, 14, 25, 25, 25, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 19 + x, 82 + y}
+	
+	draw_text((""..cur_value..""..addon), 2, true, mp.x + 18 + x + ((165 + xtra) / 2), mp.y + 81 + y, 13, true, 255, 255, 255, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 18 + x + ((165 + xtra) / 2), 81 + y}
+	
+	local activetab = 0
+	for i = 1, 5 do
+		if tab == alltabs[i] then
+			activetab = i
+		end
+	end
+	
+	sliders[valuename] = {cur_value, min, max, activetab, tab[tostring(drawcount - 3)], tab[tostring(drawcount - 2)], 20 + x, 83 + y, 12, 161 + xtra, tab[tostring(drawcount)], stradd}
+end
+
+buttons = {}
+local function add_button(valuename, text, x, y, tab, postable, xtra, xtrah)
+	draw_outlined_rect(true, mp.x + 30 + x, mp.y + 63 + y,  141 + xtra, 25 + xtrah, 60, 60, 60, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 30 + x, 63 + y}
+	
+	draw_outlined_rect(true, mp.x + 31 + x, mp.y + 64 + y, 139 + xtra, 23 + xtrah, 25, 25, 25, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 31 + x, 64 + y}
+	
+	draw_filled_rect(true, mp.x + 32 + x, mp.y + 65 + y, 137 + xtra, 21 + xtrah, 99, 54, 128, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 32 + x, 65 + y}
+	
+	draw_outlined_rect(true, mp.x + 32 + x, mp.y + 65 + y, 137 + xtra, 21 + xtrah, 127, 72, 163, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 32 + x, 65 + y}
+	
+	draw_text(text, 2, true, mp.x + 30 + x + ((141 + xtra) / 2), mp.y + 68 + y + math.floor(xtrah/2), 13, true, 255, 255, 255, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 30 + x + ((141 + xtra) / 2), 68 + y + math.floor(xtrah/2)}
+	
+	local activetab = 0
+	for i = 1, 5 do
+		if tab == alltabs[i] then
+			activetab = i
+		end
+	end
+	
+	buttons[valuename] = {activetab, x + 30, y + 63, 141 + xtra, 25 + xtrah, tab[tostring(drawcount - 2)], tab[tostring(drawcount - 1)]}
+	
+end
+
+dropboxes = {}
+local function add_dropbox(valuename, curoption, options, text, x, y, tab, postable, xtra)
+	draw_text(text, 2, true, mp.x + 18 + x, mp.y + 63 + y, 13, false, 255, 255, 255, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 18 + x, 63 + y}
+	
+	draw_filled_rect(true, mp.x + 18 + x, mp.y + 81 + y, 165 + xtra, 20, 60, 60, 60, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 18 + x, 81 + y}
+	
+	draw_filled_rect(true, mp.x + 21 + x, mp.y + 84 + y, 165 + xtra - 6, 14, 50, 50, 50, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 21 + x, 84 + y}
+	
+	draw_outlined_rect(true, mp.x + 19 + x, mp.y + 82 + y, 165 + xtra - 2, 18, 25, 25, 25, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 19 + x, 82 + y}
+	
+	draw_outlined_rect(true, mp.x + 164 + x + xtra, mp.y + 82 + y, 18, 18, 25, 25, 25, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 164 + x + xtra, 82 + y}
+	
+	draw_outlined_text(">", 2, true, mp.x + 173 + x + xtra, mp.y + 83 + y, 13, true, 255, 255, 255, 255, 0, 0, 0, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 173 + x + xtra, 83 + y}
+	local dropthingy = tab[tostring(drawcount)]
+	
+	local options = options .. ','
+	local num = 0
+	local optionss = {}
+	for w in options:gmatch("(.-),") do 
+		num = num + 1
+		table.insert(optionss, w)
+	end
+	
+	draw_text(optionss[curoption], 2, true, mp.x + 21 + x, mp.y + 83 + y, 13, false, 255, 255, 255, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 21 + x, 83 + y}
+	local wordz = tab[tostring(drawcount)]
+	
+	local boxez = {}
+	
+	draw_filled_rect(true, mp.x + 18 + x, mp.y + 101 + y, 165 + xtra, 20 * num, 60, 60, 60, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 18 + x, 101 + y}
+	table.insert(boxez, tab[tostring(drawcount)])
+	
+	for i = 1, num do
+		draw_outlined_rect(true, mp.x + 19 + x, mp.y + 82 + y + (20 * i), 165 + xtra - 2, 18, 25, 25, 25, 255, tab)
+		dctn += 1
+		postable[tostring(dctn)] = {tab[tostring(drawcount)], 19 + x, 82 + (20 * i) + y}
+		table.insert(boxez, tab[tostring(drawcount)])
+		
+		draw_filled_rect(true, mp.x + 21 + x, mp.y + 84 + y + (20 * i), 165 + xtra - 6, 14, 50, 50, 50, 255, tab)
+		dctn += 1
+		postable[tostring(dctn)] = {tab[tostring(drawcount)], 21 + x, 84 + (20 * i) + y}
+		table.insert(boxez, tab[tostring(drawcount)])
+		
+		draw_text(optionss[i], 2, true, mp.x + 21 + x, mp.y + 83 + y + (20 * i), 13, false, 255, 255, 255, 255, tab)
+		dctn += 1
+		postable[tostring(dctn)] = {tab[tostring(drawcount)], 21 + x, 83 + y + (20 * i)}
+		table.insert(boxez, tab[tostring(drawcount)])
+	end
+	
+	draw_outlined_rect(true, mp.x + 17 + x, mp.y + 80 + y, 167 + xtra, 20 * (num + 1) + 2, 127, 72, 163, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 17 + x, 80 + y}
+	table.insert(boxez, tab[tostring(drawcount)])
+	
+	for i = 1, 5 do
+		if tab == alltabs[i] then
+			activetab = i
+		end
+	end
+	
+	dropboxes[valuename] = {false, curoption, num, activetab, boxez, dropthingy, 18 + x, 82 + y, 16, 164 + xtra, wordz, optionss}
+end
+
+colorpickers = {}
+local function add_colorpicker(valuename, text, x, y, r, g, b, a, tab, postable)
+	
+	draw_outlined_rect(true, mp.x + 18 + x, mp.y + 63 + y, 24, 16, 60, 60, 60, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 18 + x, 63 + y}
+	
+	draw_outlined_rect(true, mp.x + 19 + x, mp.y + 64 + y, 22, 14, 25, 25, 25, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 19 + x, 64 + y}
+	
+	local colorthingy = {}
+	draw_filled_rect(true, mp.x + 20 + x, mp.y + 65 + y, 20, 12, r, g, b, a, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 20 + x, 65 + y}
+	table.insert(colorthingy, tab[tostring(drawcount)])
+	
+	for i = 1, 2 do 
+		draw_outlined_rect(true, mp.x + 19 + i + x, mp.y + 64 + i + y, 22 - (i * 2), 14 - (i * 2), r - 30, g - 30, b - 30, a, tab)
+		dctn += 1
+		postable[tostring(dctn)] = {tab[tostring(drawcount)], 19 + i + x, 64 + i + y}
+		table.insert(colorthingy, tab[tostring(drawcount)])
+	end
+	
+	for i = 1, 5 do
+		if tab == alltabs[i] then
+			activetab = i
+		end
+	end
+	
+	colorpickers[valuename] = {activetab, 18 + x,  63 + y, 24, 16, r, g, b, a, colorthingy, false, text}
+end
+
+local keynamereturn = {
+	["One"]    = "1",
+	["Two"]    = "2", 
+	["Three"]  = "3",
+	["Four"]   = "4",
+	["Five"]   = "5",
+	["Six"]    = "6",
+	["Seven"]  = "7",
+	["Eight"]  = "8",
+	["Nine"]   = "9",
+	["Zero"]   = "0",
+	["LeftBracket"] = "[",
+	["RightBracket"] = "]",
+	["Semicolon"] = ":",
+	["BackSlash"] = "\\",
+	["Slash"] = "/",
+	["Minus"] = "-",
+	["Equals"] = "=",
+	["Return"] = "Enter",
+	["Backquote"] = "`",
+	["CapsLock"] = "Caps",
+	["LeftShift"] = "LShift",
+	["RightShift"] = "RShift",
+	["LeftControl"] = "LCtrl",
+	["RightControl"] = "RCtrl",
+	["LeftAlt"] = "LAlt",
+	["RightAlt"] = "RAlt",
+	["Backspace"] = "Back",
+	["Plus"] = "+",
+	["Multiply"] = "x",
+	["PageUp"] = "PgUp",
+	["PageDown"] = "PgDown",
+	["Delete"] = "Del",
+	["Insert"] = "Ins",
+	["NumLock"] = "NumL",
+	["Comma"] = ",",
+	["Period"] = "."
+}
+
+local function keyenum2name(key)
+	local _key = tostring(key.KeyCode).. "."
+	local _key = _key:gsub("%.", ",")
+	local keyname = nil
+	local looptime = 0
+	for w in _key:gmatch("(.-),") do
+		looptime = looptime + 1
+		if looptime == 3 then
+			keyname = w
+		end
+	end
+	if string.match(keyname, "Keypad") then
+		keyname = string.gsub(keyname, "Keypad", "")
+	end
+	if keyname == "Unknown" or key.KeyCode.Value == 27 then 
+		return "None"
+	end
+	for k, v in pairs(keynamereturn) do 
+		if keynamereturn[keyname]  then
+			return keynamereturn[keyname]
+		end
+	end 
+	return keyname
+end
+
+keybinds = {}
+local none = Enum.KeyCode.Escape
+local function add_keybind(valuename, keyenum, x, y, tab, postable)
+	
+	draw_outlined_rect(true, mp.x + 18 + x, mp.y + 63 + y, 48, 20, 60, 60, 60, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 18 + x, 63 + y}
+	local outerbox = tab[tostring(drawcount)]
+	
+	draw_outlined_rect(true, mp.x + 19 + x, mp.y + 64 + y, 46, 18, 25, 25, 25, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 19 + x, 64 + y}
+	
+	local _key = tostring(keyenum).. "."
+	local _key = _key:gsub("%.", ",")
+	local keyname = nil
+	local looptime = 0
+	for w in _key:gmatch("(.-),") do 
+		looptime = looptime + 1
+		if looptime == 3 then 
+			keyname = w
+		end
+	end
+	
+	if string.match(keyname, "Keypad") then
+		keyname = string.gsub(keyname, "Keypad", "")
+	end
+	if keyname == "Unknown" or keyenum.Value == 27 then 
+		keyname = "None"
+		keyenum = nil
+	end
+	for k, v in pairs(keynamereturn) do 
+		if keynamereturn[keyname]  then
+			return keynamereturn[keyname]
+		end
+	end
+	
+	draw_text(keyname, 2, true, mp.x + 42 + x, mp.y + 65 + y, 13, true, 255, 255, 255, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 42 + x, 65 + y}
+	local text = tab[tostring(drawcount)]
+	
+	for i = 1, 5 do
+		if tab == alltabs[i] then
+			activetab = i
+		end
+	end
+	
+	keybinds[valuename] = {activetab, 18 + x, 63 + y, 48, 20, text, outerbox, false, keyenum}
+end
+
+local plist_gui = {}
+local function add_plist(x, y, tab, postable)
+	local plist_squares = {}
+	for i = 1, 11 do
+		local everythin = {}
+		draw_outlined_rect(true, mp.x + 18 + x, mp.y + 63 + y + ((i - 1) * 20), 366, 20, 60, 60, 60, 255, tab)
+		dctn += 1
+		postable[tostring(dctn)] = {tab[tostring(drawcount)], 18 + x, 63 + y + ((i - 1) * 20)}
+		local outerbox = tab[tostring(drawcount)]
+		table.insert(everythin, tab[tostring(drawcount)])
+		
+		draw_outlined_rect(true, mp.x + 19 + x, mp.y + 64 + y + ((i - 1) * 20), 364, 18, 25, 25, 25, 255, tab)
+		dctn += 1
+		postable[tostring(dctn)] = {tab[tostring(drawcount)], 19 + x, 64 + y + ((i - 1) * 20)}
+		table.insert(everythin, tab[tostring(drawcount)])
+		
+		local textz = {}
+		for i1 = 1, 3 do
+			if i1 ~= 3 then
+				draw_outlined_rect(true, mp.x + 19 + x + math.floor((366/3)* i1), mp.y + 66 + y + ((i - 1) * 20), 1, 15, 25, 25, 25, 255, tab)
+				dctn += 1
+				postable[tostring(dctn)] = {tab[tostring(drawcount)], 19 + x + math.floor((366/3)* i1), 66 + y + ((i - 1) * 20)}
+				table.insert(everythin, tab[tostring(drawcount)])
+			end
+			
+			if i1 == 1 then
+				draw_text("poop", 2, true, mp.x + 23 + x , mp.y + 65 + y  + ((i - 1) * 20), 13, false, 255, 255, 255, 255, tab)
+				dctn += 1
+				postable[tostring(dctn)] = {tab[tostring(drawcount)], 23 + x, 65 + y + ((i - 1) * 20)}
+				table.insert(textz, tab[tostring(drawcount)])
+				table.insert(everythin, tab[tostring(drawcount)])
+			else
+				draw_text("poop", 2, true, mp.x + 20 + x + math.floor((366/3)* i1) - ((366/3)/2), mp.y + 65 + y  + ((i - 1) * 20), 13, true, 255, 255, 255, 255, tab)
+				dctn += 1
+				postable[tostring(dctn)] = {tab[tostring(drawcount)], 20 + x + math.floor((366/3)* i1) - ((366/3)/2), 65 + y + ((i - 1) * 20)}
+				table.insert(textz, tab[tostring(drawcount)])
+				table.insert(everythin, tab[tostring(drawcount)])
+			end
+		end
+		table.insert(plist_squares, {outerbox, textz, everythin})
+	end
+	
+	draw_outlined_rect(true, mp.x + 17 + x, mp.y + 283 + y, 369, 1, 60, 60, 60, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 17 + x, 283 + y}
+	
+	draw_outlined_rect(true, mp.x + 17 + x, mp.y + 284 + y, 369, 1, 25, 25, 25, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 17 + x, 284 + y}
+	
+	draw_outlined_rect(true, mp.x + 17 + x, mp.y + 285 + y, 369, 1, 60, 60, 60, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 17 + x, 285 + y}
+	
+	draw_text("page 1 of 1", 2, true, mp.x + 204 + x, mp.y + 294 + y, 13, true, 255, 255, 255, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 204 + x, 294 + y}
+	local texty = tab[tostring(drawcount)]
+	
+	
+	draw_outlined_rect(true, mp.x + 17 + x, mp.y + 318 + y, 369, 1, 60, 60, 60, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 17 + x, 318 + y}
+	
+	draw_outlined_rect(true, mp.x + 17 + x, mp.y + 319 + y, 369, 1, 25, 25, 25, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 17 + x, 319 + y}
+	
+	draw_outlined_rect(true, mp.x + 17 + x, mp.y + 320 + y, 369, 1, 60, 60, 60, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 17 + x, 320 + y}
+	
+	draw_text("player name: ", 2, true, mp.x + 23 + x, mp.y + 324 + y, 13, false, 255, 255, 255, 255, tab)
+	dctn += 1
+	postable[tostring(dctn)] = {tab[tostring(drawcount)], 23 + x, 324 + y}
+	local ply_info = tab[tostring(drawcount)]
+	
+	plist_gui = {plist_squares, texty, ply_info}
+end 
+
+--IGNORE IGNORE IGNORE IGNORE
+
+--tab 1 (legit)
+add_group_box("aim assist", 4, 6, 182, 347, tab1, tab1pos)
+add_toggle("legit.aim.enabled", false, "aim assist", 12, 26, tab1, tab1pos)
+add_keybind("legit.aim.enabled.key", Enum.KeyCode.E, 12+117, 24, tab1, tab1pos)
+add_slider("legit.aim.smooth", 0, 100, 10, "smoothing", 12, 48, tab1, tab1pos, 0, "%")
+add_slider("legit.aim.fov", 0, 500, 50, "aimbot fov", 12, 88, tab1, tab1pos, 0, "°")
+--FUCKING ADD DYNAMIC OR WHAT?
+add_toggle("legit.aim.forcecam", false, "force camera", 12, 88+42, tab1, tab1pos, true)
+add_toggle("legit.aim.targetteam", false, "target teammates", 12, 88+42+42+42+22, tab1, tab1pos)
+add_toggle("legit.aim.forcepriority", false, "priority only", 12, 88+42+42+42+22+22, tab1, tab1pos)
+add_toggle("legit.aim.ignorefriends", false, "ignore friends", 12, 88+42+42+42+22+22+22, tab1, tab1pos)
+
+add_group_box("auto shoot", 192, 6, 182, 185, tab1, tab1pos)
+add_toggle("legit.auto.enabled", false, "auto shoot", 200, 26, tab1, tab1pos)
+add_keybind("legit.auto.key", Enum.KeyCode.M, 319, 24, tab1, tab1pos)
+add_slider("legit.auto.threshold", 5, 50, 30, "shot threshold", 200, 26+22+42, tab1, tab1pos, 0, " px")
+add_slider("legit.auto.delay", 0, 1000, 120, "shot delay", 200, 26+22+42+42, tab1, tab1pos, 0, " ms")
+add_toggle("legit.auto.shoot", false, "ignore hitbox", 200, 26+22+42+42+22+22, tab1, tab1pos)
+
+add_group_box("player mitigations", 192, 209, 182, 144, tab1, tab1pos)
+add_toggle("legit.mitigations.shoot", false, "velocity delay", 200, 209+22, tab1, tab1pos)
+add_toggle("legit.mitigations.gyrostability", false, "position stabilizer", 200, 209+25+42, tab1, tab1pos, true)
+add_toggle("legit.mitigations.forceyaw", false, "force yaw", 200, 209+25+22+42, tab1, tab1pos)
+
+add_group_box("silent aim", 381, 6, 182, 160, tab1, tab1pos)
+add_toggle("legit.silent.enabled", false, "silent aim", 389, 26, tab1, tab1pos, true)-- due to fuckers finding out how to detect newcclosures
+add_slider("legit.silent.fov", 0, 300, 20, "silent fov", 389, 26+22, tab1, tab1pos, 0, "°")
+add_slider("legit.silent.chance", 1, 100, 50, "hit chance", 389, 26+22+42, tab1, tab1pos, 0, "%")
+
+add_group_box("raycast", 381, 185, 182, 347-179, tab1, tab1pos)
+add_toggle("legit.methods.mouseredir", false, "mouse redirection", 389, 205+22+22, tab1, tab1pos, true)-- due to fuckers finding out how to detect newcclosures
+add_toggle("legit.methods.visiblecheck", false, "visible check", 389, 205+22+22+22, tab1, tab1pos)-- due to fuckers finding out how to detect newcclosures
+add_toggle("legit.methods.ignoreinvis", false, "ignore invisible", 389, 205+22+22+22+22, tab1, tab1pos)-- due to fuckers finding out how to detect newcclosures
+
+--COMBAT ZINDEX
+add_dropbox("legit.aim.priority", 1, "closest,head,torso,pelvis", "hitbox priority", 12, 88+42+42+22, tab1, tab1pos, 0)
+add_dropbox("legit.aim.keybind", 3, "aimkey,left mouse,right mouse", "aimbot keybind", 12, 88+42+22, tab1, tab1pos, 0)
+add_dropbox("legit.auto.priority", 1, "aim assist,head,torso", "hitbox priority", 200, 26+22, tab1, tab1pos, 0)
+add_dropbox("legit.methods.silentmethod", 1, "raycast,findpartonray,ignorelist,whitelist", "silent method", 389, 205, tab1, tab1pos, 0)
+add_dropbox("legit.mitigations.delayvelocity", 3, "off,low latency (>100),high latency(<150),predictive", "", 200, 209+25, tab1, tab1pos, 0)
+add_dropbox("legit.silent.priority", 1, "head,torso,pelvis", "hitbox priority", 389, 26+22+42+42, tab1, tab1pos, 0)
+
+--tab 2 (visuals)
+add_group_box("properties", 4, 6, 181, 347, tab2, tab2pos)
+add_toggle("visual.lighting.ambient", false, "ambient", 12, 26, tab2, tab2pos)
+add_colorpicker("visual.lighting.ambientin", "indoor shadows", 12+141, 26, 255, 255, 255, 255, tab2, tab2pos)
+add_colorpicker("visual.lighting.ambientout", "outdoor shadows", 12+111, 26, 255, 255, 255, 255, tab2, tab2pos)
+add_toggle("visual.lighting.colorshift", false, "color shift", 12, 26+22, tab2, tab2pos)
+add_colorpicker("visual.lighting.shiftbottom", "bottom", 12+141, 26+22, 255, 255, 255, 255, tab2, tab2pos)
+add_colorpicker("visual.lighting.shifttop", "top", 12+111, 26+22, 255, 255, 255, 255, tab2, tab2pos)
+add_toggle("visual.lighting.shadow", false, "part shadows", 12, 26+22+22+22+22, tab2, tab2pos)
+add_slider("visuals.lighting.softness", 0, 100, 20, "shadow softness", 12, 26+22+22+22+22+22, tab2, tab2pos, -30, "%")
+add_slider("visuals.lighting.sunangle", 0, 360, 41, "sun angle (x)", 12, 26+22+22+22+22+22+22+18, tab2, tab2pos, -30, "°")
+add_toggle("visual.lighting.forcetime", false, "force time", 12, 26+22+22+22+22+22+22+18+22+18, tab2, tab2pos)
+add_slider("visual.lighting.worldtime", 0, 24, 0, "time", 12, 26+22+22+22+22+22+22+18+22+22+18, tab2, tab2pos, -30, " hrs")
+add_slider("visual.lighting.diffuse", 0, 1000, 0, "diffusion scale", 12, 26+22+22+22+22+22+22+18+22+22+18+22+18, tab2, tab2pos, -30, "/1000")
+add_slider("visual.lighting.specular", 0, 1000, 0, "specular scale", 12, 26+22+22+22+22+22+22+18+22+22+18+22+18+22+18, tab2, tab2pos, -30, "/1000")
+
+add_group_box("camera visuals", 192, 6, 182, 347, tab2, tab2pos)
+add_toggle("visual.world.saturation", false, "saturation", 200, 26, tab2, tab2pos)
+add_colorpicker("visual.world.saturationcolor", "saturation tint", 200+141, 26, 170, 170, 170, 255, tab2, tab2pos)
+add_slider("visual.world.saturationamount", 0, 100, 0, "saturation amount", 200, 26+22, tab2, tab2pos, -30, "%")
+add_toggle("visual.world.blur", false, "blur", 200, 26+22+42, tab2, tab2pos)
+add_slider("visual.world.bluramount", 0, 100, 0, "blur amount", 200, 26+22+42+22, tab2, tab2pos, -30, "%")
+add_slider("visual.world.starcount", 0, 3000, 0, "star count", 200, 26+22+42+22+42+42, tab2, tab2pos, -30, " stars")
+add_slider("visual.world.sunsize", 0, 60, 0, "sun size", 200, 26+22+42+22+42+42+42, tab2, tab2pos, -30, " px")
+add_toggle("visual.world.thirdperson", false, "third person", 200, 26+22+42+22+42+42+42+42, tab2, tab2pos)
+add_keybind("visual.world.thirdpersonkey", Enum.KeyCode.V, 200+121, 26+22+42+22+42+42+42+42, tab2, tab2pos)
+add_toggle("visual.world.fieldofview", false, "field of view", 200, 26+22+42+22+42+42+42+42+22, tab2, tab2pos)
+add_keybind("visual.world.fieldofviewkey", none, 200+121, 26+22+42+22+42+42+42+42+22, tab2, tab2pos)
+add_slider("visual.world.fovamount", 0, 120, 0, "fov amount", 200, 26+22+42+22+42+42+42+42+22+22, tab2, tab2pos, -30, "")-- ADD FUCKING PREFIX
+
+add_group_box("client visuals", 381, 6, 182, 347, tab2, tab2pos)
+add_toggle("visual.player.player", false, "show player", 389, 26, tab2, tab2pos, true)
+add_colorpicker("visual.player.playercolor", "player color", 389+141, 26, 204, 108, 231, 255, tab2, tab2pos)
+add_toggle("visual.player.fakelag", false, "show fakelag ", 389, 26+22, tab2, tab2pos)
+add_colorpicker("visual.player.fakelagcolor", "fakelag color", 389+141, 26+22, 108, 176, 233, 255, tab2, tab2pos)
+add_toggle("visual.player.server", false, "show server pos", 389, 26+22+22, tab2, tab2pos)
+add_colorpicker("visual.player.servercolor", "server color", 389+141, 26+22+22, 233, 179, 108, 255, tab2, tab2pos)
+add_toggle("visual.player.asuswalls", false, "asus walls", 389, 26+22+22+22, tab2, tab2pos, true)
+add_slider("visual.player.walltransp", 0, 100, 12, "wall transparency", 389, 26+22+22+42, tab2, tab2pos, -30, "%")-- ADD FUCKING PREFIX
+add_toggle("visual.player.includeplayers", true, "include players", 389, 26+22+22+42+42, tab2, tab2pos, true)
+add_button("visuals.player.removetextures", "remove textures", 389, 26+22+22+42+42+22+42+42+5, tab2, tab2pos, 1, 0)
+
+--VISUALS ZINDEX
+add_dropbox("visuals.lighting.tech", 1, "shadowmap,future,compatibility,voxel", "shadow tech", 12, 26+22+22, tab2, tab2pos, 0)
+add_dropbox("visuals.world.sky", 1, "off,cloudy skies,dark city,purple sky,nebula,stormy,twilight,vaporwave,vivid sky", "skybox", 200, 26+22+42+22+42, tab2, tab2pos, 0)--holy paste from 2020
+add_dropbox("visuals.player.companion", 1, "none,maxwell the cat,fucking rock", "pet companion", 389, 26+22+22+42+42+22+42, tab2, tab2pos, 0)--addmore later
+add_dropbox("visuals.player.outfitspoofer", 1, "off,black guy,zade", "outfit spoofer", 389, 26+22+22+42+42+22, tab2, tab2pos, 0)--addmore later
+
+--tab 3 (visuals)
+add_group_box("enemy esp", 4, 6, 181, 165, tab3, tab3pos)
+add_toggle("esp.enemy.name", false, "name", 12, 26, tab3, tab3pos)
+add_colorpicker("esp.enemy.name", "enemy name", 152, 26, 255, 255, 255, 255, tab3, tab3pos)
+
+add_toggle("esp.enemy.box", false, "box", 12, 48, tab3, tab3pos)
+add_colorpicker("esp.enemy.box", "enemy box", 152, 48, 235, 64, 52, 255, tab3, tab3pos)
+
+add_toggle("esp.enemy.healthbar", false, "health bar", 12, 70, tab3, tab3pos)
+add_colorpicker("esp.enemy.hpmin", "enemy min health", 152, 70, 255, 0, 0, 255, tab3, tab3pos)
+add_colorpicker("esp.enemy.hpmax", "enemy max health", 122, 70, 0, 255, 0, 255, tab3, tab3pos)
+
+add_toggle("esp.enemy.equipped", false, "equipped", 12, 92, tab3, tab3pos)
+add_colorpicker("esp.enemy.equippedcolor", "enemy equipped", 152, 92, 255, 255, 255, 255, tab3, tab3pos)
+
+add_toggle("esp.enemy.distance", false, "distance", 12, 114, tab3, tab3pos)
+add_colorpicker("esp.enemy.distance", "ememy distance", 152, 114, 255, 255, 255, 255, tab3, tab3pos)
+
+add_toggle("esp.enemy.chams", false, "chams", 12, 136, tab3, tab3pos)
+add_colorpicker("esp.enemy.chamsvis", "enemy visible chams", 152, 136, 255, 0, 0, 200, tab3, tab3pos)
+add_colorpicker("esp.enemy.chamsinvis", "ememy invisble chams", 122, 136, 255, 255, 255, 40, tab3, tab3pos)
+
+add_toggle("esp.enemy.skeleton", false, "skeleton", 12, 158, tab3, tab3pos)
+add_colorpicker("esp.enemy.skeleton", "enemy skelton", 152, 158, 255, 255, 255, 255, tab3, tab3pos)
+
+add_group_box("team esp", 4, 188, 181, 165, tab3, tab3pos)
+add_toggle("esp.team.name", false, "name", 12, 207, tab3, tab3pos)
+add_colorpicker("esp.team.name", "team name", 152, 207, 255, 255, 255, 255, tab3, tab3pos)
+
+add_toggle("esp.team.box", false, "box", 12, 230, tab3, tab3pos)
+add_colorpicker("esp.team.box", "team box", 152, 230, 76, 235, 52, 255, tab3, tab3pos)
+
+add_toggle("esp.team.healthbar", false, "health bar", 12, 252, tab3, tab3pos)
+add_colorpicker("esp.team.hpmin", "team min health", 152, 252, 255, 0, 0, 255, tab3, tab3pos)
+add_colorpicker("esp.team.hpmax", "team max health", 122, 252, 0, 255, 0, 255, tab3, tab3pos)
+
+add_toggle("esp.team.equipped", false, "equipped", 12, 274, tab3, tab3pos)
+add_colorpicker("esp.team.equippedcolor", "team equipped", 152, 274, 255, 255, 255, 255, tab3, tab3pos)
+
+add_toggle("esp.team.distance", false, "distance", 12, 296, tab3, tab3pos)
+add_colorpicker("esp.team.distance", "team distance", 152, 296, 255, 255, 255, 255, tab3, tab3pos)
+
+add_toggle("esp.team.chams", false, "chams", 12, 317, tab3, tab3pos)
+add_colorpicker("esp.team.chamsvis", "team visible chams", 152, 317, 0, 255, 0, 200, tab3, tab3pos)
+add_colorpicker("esp.team.chamsinvis", "team invisble chams", 122, 317, 255, 255, 255, 40, tab3, tab3pos)
+
+add_toggle("esp.team.skeleton", false, "skeleton", 12, 340, tab3, tab3pos)
+add_colorpicker("esp.team.skeleton", "team skeleton", 152, 340, 255, 255, 255, 255, tab3, tab3pos)
+
+add_group_box("esp settings", 192, 6, 182, 182, tab3, tab3pos) 
+add_toggle("esp.settings.showfriends", false, "show friends", 200, 26, tab3, tab3pos)
+add_colorpicker("esp.settings.showfriends", "friend color", 341, 26, 52, 155, 235, 255, tab3, tab3pos)
+add_toggle("esp.settings.showproirity", false, "show priority", 200, 26+22, tab3, tab3pos)
+add_colorpicker("esp.settings.showproirity", "priority color", 341, 26+22, 245, 221, 7, 255, tab3, tab3pos)
+add_toggle("esp.settings.showtarget", false, "show target", 200, 26+22+22, tab3, tab3pos)
+add_colorpicker("esp.settings.showtarget", "target color", 341, 26+22+22, 250, 0, 0, 255, tab3, tab3pos)
+add_slider("esp.settings.textlength", 0, 24, 6, "text length", 200, 26+22+22+22+42, tab3, tab3pos, -30, " chars")-- ADD FUCKING PREFIX
+add_toggle("esp.settings.displayname", false, "display name", 200, 26+22+22+22+42+22+22, tab3, tab3pos)
+
+add_group_box("misc esp", 192, 205, 182, 148, tab3, tab3pos)
+add_toggle("esp.misc.headdot", false, "head dot", 200, 205+22, tab3, tab3pos)
+add_colorpicker("esp.misc.handchams", "dot color", 341, 205+22, 60, 0, 151, 255, tab3, tab3pos)
+add_toggle("esp.misc.wepcolor", false, "line of sight", 200, 205+22+22, tab3, tab3pos)
+add_colorpicker("esp.misc.sightcolor", "sight color", 341, 205+22+22, 255, 255, 255, 255, tab3, tab3pos)
+add_toggle("esp.misc.spawn", false, "spawn locations", 200, 205+22+22+22, tab3, tab3pos)
+
+add_group_box("esp visuals", 381, 6, 182, 347, tab3, tab3pos)
+add_toggle("visual.player.crosshair", false, "crosshair", 389, 26, tab3, tab3pos)
+add_colorpicker("visual.player.innercolor", "inner color", 389+111, 26, 233, 233, 233, 255, tab3, tab3pos)
+add_colorpicker("visual.player.outlinecolor", "outline color", 389+141, 26, 30, 30, 30, 255, tab3, tab3pos)
+add_slider("visual.player.crosshairsize", 0, 24, 6, "crosshair size", 389, 26+22+42, tab3, tab3pos, -30, " px")-- ADD FUCKING PREFIX
+add_toggle("visual.player.assistfov", false, "assist fov", 389, 26+22+42+22+22, tab3, tab3pos)
+add_colorpicker("visual.player.assistcolor", "assist color", 389+141, 26+22+42+22+22, 255, 0, 0, 255, tab3, tab3pos)
+add_toggle("visual.player.silentfov", false, "silent fov", 389, 26+22+42+22+22+22, tab3, tab3pos)
+add_colorpicker("visual.player.silentcolor", "silent color", 389+141, 26+22+42+22+22+22, 255, 0, 255, 255, tab3, tab3pos)
+
+--ESP ZINDEX
+add_dropbox("esp.settings.casing", 1, "lowercase,UPPERCASE,Normal","text casing", 200, 26+22+22+22, tab3, tab3pos, 0)
+add_dropbox("visuals.player.crosshairpos", 1, "middle,mouse", "crosshair position", 389, 26+22, tab3, tab3pos, 0)
+add_dropbox("esp.misc.target", 1, "off,always,on target", "target info", 200, 318, tab3, tab3pos, 1)
+
+--tab 4 (misc)
+add_group_box("movement", 4, 6, 182, 205, tab4, tab4pos) 
+add_toggle("misc.movement.fly", false, "butterfly", 12, 26, tab4, tab4pos, true)
+add_keybind("misc.movement.fly", Enum.KeyCode.B, 130, 24, tab4, tab4pos)
+add_slider("misc.movement.flyspeed", 0, 400, 70, "wing speed", 12, 46, tab4, tab4pos, 0)
+add_toggle("misc.movement.speed", false, "speedhack", 12, 46+22+22, tab4, tab4pos)
+add_keybind("misc.movement.speedhack", none, 130, 46+22+22, tab4, tab4pos)
+add_slider("misc.movement.speed", 0, 250, 40, "speed", 12, 46+22+22+22, tab4, tab4pos, 0)
+add_toggle("misc.movement.circle", false, "c strafe", 12, 46+22+22+42+22, tab4, tab4pos)
+add_keybind("misc.movement.circlekey", Enum.KeyCode.C, 130, 46+22+22+42+22, tab4, tab4pos)
+
+add_group_box("anti aim", 4, 225, 182, 128, tab4, tab4pos)
+add_toggle("misc.antiaim.enabled", false, "anti aim", 12, 205+22+22, tab4, tab4pos
+add_keybind("misc.antiaim.enabledkey", none, 12+121, 205+22+22, tab4, tab4pos)
+add_slider("misc.antiaim.spinrate", 0, 250, 40, "spin rate", 12, 205+26+26+26+42, tab4, tab4pos, 0)
+
+add_group_box("griefing bot", 192, 6, 182, 205, tab4, tab4pos)
+add_toggle("misc.grief.follow", false, "stalk bot", 200, 26+22+22, tab4, tab4pos)--shit is funny in some games
+add_keybind("misc.grief.followkey", Enum.KeyCode.B, 200+121, 26+22+20, tab4, tab4pos)
+add_toggle("misc.grief.infrontofplayer", false, "always infront", 200, 26+22+22+22, tab4, tab4pos, true)
+add_keybind("misc.grief.infrontkey", none, 200+121, 26+22+22+20, tab4, tab4pos)
+add_toggle("misc.grief.grieffriends", false, "grief friends only", 200, 26+22+22+22+22, tab4, tab4pos)
+add_slider("misc.grief.phraseamount", 0, 20, 6, "words", 200, 26+22+22+22+22+22+42, tab4, tab4pos, 1, " words")
+
+add_group_box("fake latency", 192, 225, 182, 128, tab4, tab4pos)
+add_toggle("misc.fakelag.enabled", false, "fake latency", 200, 205+22+22, tab4, tab4pos
+add_keybind("misc.fakelag.enabledkey", none, 200+121, 205+22+22, tab4, tab4pos)
+add_slider("misc.fakelag.chokehold", 0, 128, 17, "choke amount", 200, 205+22+22+22, tab4, tab4pos, 0)
+add_toggle("misc.fakelag.onlyinair", false, "only in air", 200, 205+22+22+42+22, tab4, tab4pos)
+add_toggle("misc.fakelag.ignoreaimbot", true, "ignore aimbot", 200, 205+22+22+42+22+22, tab4, tab4pos)
+
+add_group_box("exploits", 381, 6, 182, 347, tab4, tab4pos)
+add_toggle("misc.exploits.freezeworld", false, "freeze world", 389, 26, tab4, tab4pos)
+add_keybind("misc.exploits.freezeworldkey", none, 389+121, 24, tab4, tab4pos)
+add_toggle("misc.exploits.manualchoke", false, "manual choke", 389, 26+22, tab4, tab4pos)
+add_keybind("misc.exploits.manualchokekey", none, 389+121, 26+20, tab4, tab4pos)
+add_toggle("misc.exploits.desync", false, "desync", 389, 26+22+22, tab4, tab4pos)
+add_keybind("misc.exploits.desynckey", none, 389+121, 26+22+20, tab4, tab4pos)
+add_toggle("misc.exploits.checkpoint", false, "checkpoint", 389, 26+22+22+22+42+42+42, tab4, tab4pos, true)
+add_keybind("misc.exploits.checkpointkey", none, 389+121, 26+22+22+22+42+42+40, tab4, tab4pos)
+
+--MISC ZINDEX
+add_dropbox("misc.movement.speedgain", 1, "instant,legacy,gradual","speed gain", 12, 46+22+22+42+42, tab4, tab4pos, 0)
+add_dropbox("misc.antiaim.yaw", 1, "forward,backward,left,right,180 treehouse,spin,glitch spin,funny","", 12, 205+26+26+26, tab4, tab4pos, 0)
+add_dropbox("misc.antiaim.base", 1, "camera,closest threat","", 12, 205+26+26, tab4, tab4pos, 0)
+add_dropbox("misc.grief.target", 1, "closest,crosshair","grief sorting", 200, 26, tab4, tab4pos, 0)
+add_dropbox("misc.grief.chatspam", 1, "off,youtube title,porn title,arrogant gamer,chinese gamer,0iq cheater,emojis,advertisement", "chat spam", 200, 26+22+22+22+22+22, tab4, tab4pos, 1)
+add_dropbox("misc.exploits.desyncvelocity", 1, "off,delayed,random,exploit", "velocity", 389, 26+22+22+22+42+42, tab4, tab4pos, 0)
+add_dropbox("misc.exploits.desyncyaw", 1, "off,forward,backward,left,right,180 treehouse,glitch spin,funny", "yaw", 389, 26+22+22+22+42, tab4, tab4pos, 0)
+add_dropbox("misc.exploits.desyncpos", 1, "off,legit left,legit right,rage,underground,raised,random l/r,random underground,exploit", "position", 389, 26+22+22+22, tab4, tab4pos, 0)
+
+--tab 5 (SETTINGS)
+add_group_box("player list			team			 status", 4, 6, 370, 347, tab5, tab5pos)--LMAO
+add_plist(6, 20, tab5, tab5pos)
+add_button("config.plist.back", "<", 0, 249, tab5, tab5pos, -121, -5)
+add_button("config.plist.next", ">", 334, 249, tab5, tab5pos, -121, -5)
+add_button("config.plist.cu", "user", 213, 331, tab5, tab5pos, -85, 0)
+add_button("config.plist.tp", "tp", 271, 331, tab5, tab5pos, -100, 0)
+add_button("config.plist.sp", "sp", 275+38, 331, tab5, tab5pos, -100, 0)
+add_dropbox("config.plist.ptype", 1, "none,friend,priority", "player status", 224, 285, tab5, tab5pos, -23)
+
+add_group_box("configs", 381, 6, 182, 186, tab5, tab5pos)
+add_button("config.configs.save", "save config", 389, 72, tab5, tab5pos, 1, 0)
+add_button("config.configs.load", "load config", 389, 106, tab5, tab5pos, 1, 0)
+add_toggle("config.configs.statlist", false, "status list", 389, 106+32+42, tab5, tab5pos)
+
+add_group_box("extra settings", 381, 206, 182, 147, tab5, tab5pos)
+add_toggle("config.extra.performance", false, "performance mode", 389, 207+22, tab5, tab5pos)
+add_toggle("config.extra.calculationfix", true, "calculation fix", 389, 207+22+22, tab5, tab5pos)
+add_toggle("config.extra.usedisplay", false, "use display name", 389, 207+22+22+22, tab5, tab5pos)
+add_button("config.extra.newserver", "new server", 389, 299, tab5, tab5pos, 1, 0)
+add_button("config.extra.godmode","kill yourself", 389, 329, tab5, tab5pos, 1, 0)--godmode
+
+add_dropbox("config.configs.name", 1, "vvshaxx,x00cheats,johanbot,jbot,bitchbot,bbot,bloxtap,gaysense.cc,aimware deluxe,rev1v3.xyz,gatoware,desuhook,zebraware,national migration,michael jordan hack", "cheat name", 389, 106+32, tab5, tab5pos, 1)
+add_dropbox("config.configs.configs", 1, "config 1,config 2,config 3,config 4,config 5,config 6", "configs", 389, 26, tab5, tab5pos, 0)
+
+local cpp = {
+	x = 700,
+	y = 300,
+	w = 250,
+	h = 310
+}
+local colorpickeropen = true
+local colorpicker = {}
+
+drawcount = 0
+draw_filled_rect(true, cpp.x, cpp.y, cpp.w, cpp.h, 99, 54, 128, 255, colorpicker)
+
+draw_outlined_rect(true, cpp.x, cpp.y, cpp.w, cpp.h, 25, 25, 25, 255, colorpicker)
+draw_outlined_rect(true, cpp.x + 1, cpp.y + 1, cpp.w - 2, cpp.h - 2, 67, 67, 67, 255, colorpicker)
+for i = 1, 3 do
+	draw_outlined_rect(true, cpp.x + 1 + i, cpp.y + 1 + i, cpp.w - 2 - (i * 2), cpp.h - 2 - (i * 2), 40, 40, 40, 255, colorpicker)
+end
+draw_outlined_rect(true, cpp.x + 5, cpp.y + 5, cpp.w - 10, cpp.h - 10, 67, 67, 67, 255, colorpicker)
+draw_outlined_rect(true, cpp.x + 6, cpp.y + 6, cpp.w - 12, cpp.h - 12, 25, 25, 25, 255, colorpicker)
+draw_outlined_rect(true, cpp.x + 7, cpp.y + 7, cpp.w - 14, cpp.h - 14, 127, 72, 163, 255, colorpicker)
+draw_outlined_rect(true, cpp.x + 11, cpp.y + 23, cpp.w - 22, cpp.h - 34, 127, 72, 163, 255, colorpicker)
+draw_outlined_rect(true, cpp.x + 12, cpp.y + 24, cpp.w - 24, cpp.h - 36, 25, 25, 25, 255, colorpicker)
+draw_outlined_rect(true, cpp.x + 13, cpp.y + 25, cpp.w - 26, cpp.h - 38, 67, 67, 67, 255, colorpicker)
+draw_filled_rect(true, cpp.x + 14, cpp.y + 26, cpp.w - 28, cpp.h - 40, 40, 40, 40, 255, colorpicker)
+draw_outlined_text("color picker", 2, true, cpp.x + 20, cpp.y + 8, 13, false, 255, 255, 255, 255, 0, 0, 0, colorpicker)
+local colorpickertext = colorpicker[tostring(drawcount)]
+draw_filled_rect(true, cpp.x + 24, cpp.y + 187, 96, 66, 255, 255, 255, 255, colorpicker)
+draw_filled_rect(true, cpp.x + 24, cpp.y + 187, 96, 66, 255, 0, 0, 255, colorpicker)
+draw_outlined_rect(true, cpp.x + 24, cpp.y + 187, 96, 66, 220, 0, 0, 255, colorpicker)
+draw_outlined_rect(true, cpp.x + 25, cpp.y + 188, 94, 64, 220, 0, 0, 255, colorpicker)
+local old_color = {colorpicker[tostring(drawcount - 2)], colorpicker[tostring(drawcount - 1)], colorpicker[tostring(drawcount)]}
+draw_filled_rect(true, cpp.x + 130, cpp.y + 187, 96, 66, 255, 255, 255, 255, colorpicker)
+draw_filled_rect(true, cpp.x + 130, cpp.y + 187, 96, 66, 255, 0, 0, 255, colorpicker)
+draw_outlined_rect(true, cpp.x + 130, cpp.y + 187, 96, 66, 220, 0, 0, 255, colorpicker)
+draw_outlined_rect(true, cpp.x + 131, cpp.y + 188, 94, 64, 220, 0, 0, 255, colorpicker)
+local new_color = {colorpicker[tostring(drawcount - 2)], colorpicker[tostring(drawcount - 1)], colorpicker[tostring(drawcount)]}
+
+local colorpickerz = {}
+local colorpickerpos = {}
+add_slider("colorpicker.r", 0, 255, 100, "red", 2, -36, colorpickerz, colorpickerpos, 45)
+add_slider("colorpicker.g", 0, 255, 100, "green", 2, 0, colorpickerz, colorpickerpos, 45)
+add_slider("colorpicker.b", 0, 255, 100, "blue", 2, 36, colorpickerz, colorpickerpos, 45)
+add_slider("colorpicker.a", 0, 255, 255, "alpha", 2, 72, colorpickerz, colorpickerpos, 45)
+
+add_group_box("current", 4, 110, 100, 70, colorpickerz, colorpickerpos)
+add_group_box("new", 110, 110, 100, 70, colorpickerz, colorpickerpos)
+add_button("colorpicker.close", "close", -8, 198, colorpickerz, colorpickerpos, -41, 0)
+add_button("colorpicker.apply", "apply", 99, 198, colorpickerz, colorpickerpos, -41, 0)
+
+local function set_old_color(r, g, b, a)
+	for k, v in pairs(old_color) do 
+		if k == 1 then 
+			v.Color = Color3.fromRGB(r, g, b)
+			v.Transparency = a/255
+		else
+			v.Color = Color3.fromRGB(r - 30, g - 30, b - 30)
+			v.Transparency = a/255
+		end
+	end
+end
+
+
+local function set_new_color(r, g, b, a)
+	for k, v in pairs(new_color) do 
+		if k == 1 then 
+			v.Color = Color3.fromRGB(r, g, b)
+			v.Transparency = a/255
+		else
+			v.Color = Color3.fromRGB(r - 30, g - 30, b - 30)
+			v.Transparency = a/255
+		end
+		
+	end
+end 
+
+local function set_cp_text(text)
+	colorpickertext.Text = text
+end
+
+local function set_colorpicker_pos(x, y)
+	colorpicker["1"].Position = Vector2.new(x, y)
+	for i = 0, 7 do
+		colorpicker[tostring(i + 2)].Position = Vector2.new(x + i, y + i)
+	end
+	for i = 0, 3 do
+		colorpicker[tostring(i + 10)].Position = Vector2.new(x + 11 + i, y + 23 + i)
+	end
+	colorpicker["14"].Position = Vector2.new(x + 20, y + 8)
+	colorpicker["15"].Position = Vector2.new(x + 24, y + 187)
+	for k, v in pairs(old_color) do
+		if k == 3 then
+			v.Position = Vector2.new(x + 25, y + 188)
+		else
+			v.Position = Vector2.new(x + 24, y + 187)
+		end
+	end
+	colorpicker["19"].Position = Vector2.new(x + 130, y + 187)
+	for k, v in pairs(new_color) do
+		if k == 3 then
+			v.Position = Vector2.new(x + 131, y + 188)
+		else
+			v.Position = Vector2.new(x + 130, y + 187)
+		end
+	end
+	
+	for k, v in pairs(colorpickerpos) do
+		v[1].Position = Vector2.new(v[2] + x, v[3] + y)
+	end
+	
+	cpp.x = x
+	cpp.y = y
+end
+
+local function set_colorpicker_visible(visible)
+	for k, v in pairs(colorpicker) do 
+		v.Visible = visible
+	end
+	for k, v in pairs(colorpickerpos) do
+		v[1].Visible = visible 
+	end
+end
+
+local function set_colorpicker(visible, pos_x, pos_y, r, g, b, a, text)
+	colorpickeropen = visible 
+	set_colorpicker_visible(visible)
+	set_colorpicker_pos(pos_x, pos_y)
+	set_old_color(r, g, b, a)
+	set_new_color(r, g, b, a)
+	
+	for k, v in pairs(sliders) do
+		if v[4] == 0 then
+			if v == sliders["colorpicker.r"] then
+				v[1] = r
+			elseif v == sliders["colorpicker.g"] then
+				v[1] = g
+			elseif v == sliders["colorpicker.b"] then
+				v[1] = b
+			elseif v == sliders["colorpicker.a"] then
+				v[1] = a
+			end
+			v[5].Size = Vector2.new((v[1] - v[2]) / (v[3] - v[2]) * v[10], 12)
+			v[6].Size = Vector2.new((v[1] - v[2]) / (v[3] - v[2]) * v[10], 12)
+			v[11].Text = tostring(v[1])
+		end
+	end
+	set_cp_text(text)
+end
+
+set_colorpicker(false, 800, 300, 99, 54, 128, 255, "nashwhia a s ghhrejsdvgaasdnwhwet ge awelfgawhas dlsdgkas lwajfjkr")
+
+local bbmouse = {}
+drawcount = 0
+local p1 = 300
+local p2 = 300
+draw_filled_tri(true, p1, p2, p1, p2 + 15, p1 + 10, p2 + 10, 99, 54, 128, 220, bbmouse)
+draw_tri(true, p1 + 1, p2 + 2, p1 + 2, p2 + 13, p1 + 8, p2 + 8, 127, 72, 163, 255, bbmouse)
+draw_tri(true, p1, p2, p1, p2 + 15, p1 + 10, p2 + 10, 25, 25, 25, 255, bbmouse)
+
+drawcount = 0
+
+local function set_menu_mouse_pos(x, y)
+	for k, v in pairs(bbmouse) do
+		if v == bbmouse["2"] then
+			v.PointA = Vector2.new(x + 1, y + 37)
+			v.PointB = Vector2.new(x + 1, y + 36 + 13)
+			v.PointC = Vector2.new(x + 8, y + 46)
+		else
+			v.PointA = Vector2.new(x, y + 36)
+			v.PointB = Vector2.new(x, y + 36 + 15)
+			v.PointC = Vector2.new(x + 10, y + 46)
+		end
+	end
+end
+
+local menufadespeed = 50
+
+local activetab = tab1
+set_tab_visible(tab)
+while menualpha < 255 do
+	if menuclosing then
+		break
+	end
+	wait(0)
+	menualpha = menualpha + menufadespeed
+	if menualpha > 255 then
+		menualpha = 255
+	end
+	for k, v in pairs(bbmenu) do
+		if v == bbmenu["1"] then
+			v.Transparency = (menualpha - 20) / 255
+		else
+			v.Transparency = menualpha / 255
+		end
+	end
+	for k, v in pairs(bbmouse) do
+		if v == bbmouse["1"] then
+			v.Transparency = (menualpha - 20) / 255
+		else
+			v.Transparency = menualpha / 255
+		end
+	end
+	for k, v in pairs(colorpicker) do 
+		if v == colorpicker["1"] then 
+			v.Transparency = (menualpha - 20) / 255
+		else
+			v.Transparency = menualpha / 255
+		end
+	end
+	for k, v in pairs(colorpickerpos) do
+		v[1].Transparency = menualpha / 255
+	end
+	if tab == 1 then--optimizing hero
+		activetab = tab1
+	elseif tab == 2 then
+		activetab = tab2
+	elseif tab == 3 then
+		activetab = tab3
+	elseif tab == 4 then
+		activetab = tab4
+	elseif tab == 5 then
+		activetab = tab5
+	end
+	for k, v in pairs(activetab) do
+		v.Transparency = menualpha / 255
+	end
+end
+local oldPos = Vector3new
+local shooties = {}
+local keycheck = Input.InputBegan:Connect(function(key)
+	if key.KeyCode == Enum.KeyCode.Delete then
+		if not menuclosing then
+			menuclosing = true
+			while menualpha > 0 do
+				if not menuclosing then
+					break
+				end
+				wait(0)
+				menualpha = menualpha - menufadespeed
+				if menualpha < 0 then
+					menualpha = 0
+				end
+				for k, v in pairs(bbmenu) do
+					if v == bbmenu["1"] then
+						v.Transparency = (menualpha - 20) / 255
+					else
+						v.Transparency = menualpha / 255
+					end
+				end
+				
+				if tab == 1 then
+					activetab = tab1
+				elseif tab == 2 then
+					activetab = tab2
+				elseif tab == 3 then
+					activetab = tab3
+				elseif tab == 4 then
+					activetab = tab4
+				elseif tab == 5 then
+					activetab = tab5
+				end
+				for k, v in pairs(activetab) do
+					v.Transparency = menualpha / 255
+				end
+				
+				for k, v in pairs(bbmouse) do
+					if v == bbmouse["1"] then
+						v.Transparency = (menualpha - 20) / 255
+					else
+						v.Transparency = menualpha / 255
+					end
+				end
+				for k, v in pairs(colorpicker) do 
+					if v == colorpicker["1"] then 
+						v.Transparency = (menualpha - 20) / 255
+					else
+						v.Transparency = menualpha / 255
+					end
+				end
+				for k, v in pairs(colorpickerpos) do
+					v[1].Transparency = menualpha / 255
+				end
+			end
+			menuopen = false
+		elseif menuclosing then
+			menuopen = true
+			menuclosing = false
+			while menualpha < 255 do
+				if menuclosing then
+					break
+				end
+				wait(0)
+				menualpha = menualpha + menufadespeed
+				if menualpha > 255 then
+					menualpha = 255
+				end
+				for k, v in pairs(bbmenu) do
+					if v == bbmenu["1"] then
+						v.Transparency = (menualpha - 20) / 255
+					else
+						v.Transparency = menualpha / 255
+					end
+				end
+				
+				if tab == 1 then
+					activetab = tab1
+				elseif tab == 2 then
+					activetab = tab2
+				elseif tab == 3 then
+					activetab = tab3
+				elseif tab == 4 then
+					activetab = tab4
+				elseif tab == 5 then
+					activetab = tab5
+				end
+				for k, v in pairs(activetab) do
+					v.Transparency = menualpha / 255
+				end
+				
+				for k, v in pairs(bbmouse) do
+					if v == bbmouse["1"] then
+						v.Transparency = (menualpha - 20) / 255
+					else
+						v.Transparency = menualpha / 255
+					end
+				end
+				for k, v in pairs(colorpicker) do 
+					if v == colorpicker["1"] then 
+						v.Transparency = (menualpha - 20) / 255
+					else
+						v.Transparency = menualpha / 255
+					end
+				end
+				for k, v in pairs(colorpickerpos) do
+					v[1].Transparency = menualpha / 255
+				end
+				
+			end
+		end
+	end
+end)
+	
+local mouseup = true
+local dragging = false 
+local dontdrag = false
+local clickspot_x, clickspot_y, original_menu_x, original_menu_y = 0, 0, 0, 0
+
+local function mouse_pressed_in(x, y, width, height)
+	if mouse.X > mp.x + x and mouse.X < mp.x + x + width and mouse.y > mp.y - 36 + y and mouse.Y < mp.y - 36 + y + height then
+		return true
+	else
+		return false
+	end
+end
+
+local function mouse_pressed_in_colorpicker(x, y, width, height)
+	if mouse.X > cpp.x + x and mouse.X < cpp.x + x + width and mouse.y > cpp.y - 36 + y and mouse.Y < cpp.y - 36 + y + height then
+		return true
+	else
+		return false
+	end
+end
+
+
+local function set_menu_pos(x, y)
+	bbmenu["1"].Position = Vector2.new(x, y)
+	for i = 0, 7 do
+		bbmenu[tostring(i + 2)].Position = Vector2.new(x + i, y + i)
+	end
+	for i = 0, 3 do
+		bbmenu[tostring(i + 10)].Position = Vector2.new(x + 11 + i, y + 23 + i)
+	end
+	bbmenu["14"].Position = Vector2.new(x + 20, y + 8)
+	for i = 1, 5 do
+		bbmenu[tostring(i + 14)].Position = Vector2.new(x + 14 + ((i - 1) * 115), y + 26)
+	end
+	for i = 1, 5 do
+		bbmenu[tostring(i + 19)].Position = Vector2.new(x + 14 + ((i - 1) * 115), y + 26)
+	end
+	bbmenu["25"].Position = Vector2.new(x + 14, y + 66)
+	for i = 1, 5 do
+		bbmenu[tostring(i + 25)].Position = Vector2.new(x + 14 + ((i - 1) * 115) + 1, y + 65)
+	end
+	for i = 1, 5 do
+		bbmenu[tostring(i + 30)].Position = Vector2.new(x + 72 + (115 * (i - 1)), y + 38)
+	end
+	
+	for k, v in pairs(allpostabs) do
+		for k1, v1 in pairs(v) do
+			v1[1].Position = Vector2.new(v1[2] + x, v1[3] + y)
+		end
+	end
+end
+
+for k, v in pairs(dropboxes) do
+	for k1, v1 in pairs(v[5]) do
+		v1.Visible = false 
+	end
+end
+
+local keyz = {}
+for k, v in pairs(Enum.KeyCode:GetEnumItems()) do
+	keyz[v.Value] = v
+end
+
+local function plist_page(pagenum, selected_plyr, priorityfellas, friendlyfellas)
+    local player_table = {}
+    local sorted_players = {}
+
+	local amount = (pagenum - 1)* 11
+	local times = 0
+	local players = game:GetService("Players"):GetPlayers()
+	local maxplys = 0
+	for k, v in pairs(players) do
+		maxplys = k
+	end
+	local maxpages = math.ceil(maxplys/11)
+	plist_gui[2].Text = "page "..pagenum.." of "..maxpages
+	for k, v in pairs(plist_gui[1]) do
+		if players[k + amount]  then
+			for k1, v1 in pairs(v[3]) do
+				v1.Visible = true
+			end
+            local nametype = players[k + amount].Name
+            if toggles["config.extra.usedisplay"][1] then
+                nametype = players[k + amount].DisplayName
+            else
+                nametype = players[k + amount].Name
+            end
+			if string.len(nametype) > 15 then
+				v[2][1].Text = string.sub(nametype, 0, 12) .. "..."
+			else
+				v[2][1].Text = nametype
+            end
+			v[2][2].Text = players[k + amount].Team ~= nil and players[k + amount].Team.Name or "none"
+			v[2][2].Color = players[k + amount].Team ~= nil and players[k + amount].TeamColor.Color or Color3.fromRGB(255, 255, 255)
+			if players[k + amount] == MainPlayer then
+				v[2][3].Text = "Local Player"
+				v[2][3].Color = Color3.fromRGB(0, 128, 255)
+			elseif table_contains(priorityfellas, players[k + amount].Name) then
+				v[2][3].Text = "Priority"
+				v[2][3].Color = Color3.fromRGB(252, 219, 3)
+			elseif table_contains(friendlyfellas, players[k + amount].Name) then
+				v[2][3].Text = "Friend"
+				v[2][3].Color = Color3.fromRGB(10, 194, 0)
+			else
+				v[2][3].Text = "None"
+				v[2][3].Color = Color3.fromRGB(255, 255, 255)
+			end 
+		else
+			for k1, v1 in pairs(v[3]) do
+				v1.Visible = false
+			end
+		end
+		if selected_plyr then
+			if players[k + amount] == selected_plyr then
+				v[1].Color = Color3.fromRGB(127, 72, 163)
+			else
+				v[1].Color = Color3.fromRGB(60, 60, 60)
+			end
+		else
+			v[1].Color = Color3.fromRGB(60, 60, 60)
+		end 
+	end
+	if selected_plyr == nil then
+		plist_gui[3].Text = "no player selected"
+	else
+		local alivetext = "no"
+		local healthtext = "dead"
+		if selected_plyr.Character and selected_plyr.Character:FindFirstChildOfClass("Humanoid").Health ~= 0 then 
+			alivetext = "yes"
+			healthtext = tostring(selected_plyr.Character:FindFirstChildOfClass("Humanoid").Health)
+		else
+			alivetext = "no"
+			healthtext = "0"
+		end
+        local nametype = selected_plyr.Name
+        if toggles["config.extra.usedisplay"][1] then
+            nametype = selected_plyr.DisplayName
+        else
+            nametype = selected_plyr.Name
+        end
+		local teamtext = "no"
+		if selected_plyr.Team ~= nil then
+			teamtext = selected_plyr.Team
+		else
+			teamtext = "no"
+		end
+		plist_gui[3].Text = "name: ".. nametype .."\nteam: ".. teamtext .."\nalive: ".. alivetext .."\nhealth: ".. healthtext
+	end
+end
+
+local plist_pgnum = 1
+local selected_plyr = nil
+local priorityplyrs = {}
+local friendplyrs = {}
+local plist_render = game:GetService("RunService").RenderStepped:Connect(function()
+	if menuopen and tab == 5 then
+		local players = game:GetService("Players"):GetPlayers()
+		local maxplys = 0
+		for k, v in pairs(players) do
+			maxplys = k
+		end
+		local maxpages = math.ceil(maxplys/11)
+		if plist_pgnum > maxpages then
+			plist_pgnum = 1
+		end
+		if plist_pgnum < 1 then
+			plist_pgnum = maxpages
+		end
+		local foundselecply = false
+		for k, v in pairs(players) do
+			if v == selected_plyr then 
+				foundselecply = true
+			end
+		end
+		if not foundselecply then
+			selected_plyr = nil
+		end
+		if not priorityplyrs or friendplyrs then
+			plist_page(plist_pgnum, selected_plyr, priorityplyrs, friendplyrs)
+		end
+	end
+end)
+for k, v in pairs(toggles) do
+	if v[1] == true then
+		v[3].Color = Color3.fromRGB(127, 72, 163)
+		v[4].Color = Color3.fromRGB(99, 54, 128)
+	else
+		v[3].Color = Color3.fromRGB(60, 60, 60)
+		v[4].Color = Color3.fromRGB(40, 40, 40)
+	end
+end
+	
+mouse.Button1Down:Connect(function()
+	mouseup = false
+	if menuopen then		
+		for i = 1, 5 do
+			if mouse_pressed_in(14 + ((i - 1) * 115), 26, 115, 40) and not colorpickeropen then
+				tab = i
+			end
+		end
+		
+		set_tab_visible(tab)
+		
+		local dropboxopen = false
+		local dropboxthatsopen = nil 
+		for k, v in pairs(dropboxes) do
+			if v[1] == true then
+				dropboxopen = true
+				dropboxthatsopen = v
+				break 
+			end
+		end
+		
+		for k, v in pairs(toggles) do 
+			if tab == v[2] then
+				if mouse_pressed_in(v[5], v[6], v[7], v[8]) and not dropboxopen and not colorpickeropen then
+					v[1] = not v[1]
+				end
+			end
+			if v[1] == true then
+				v[3].Color = Color3.fromRGB(127, 72, 163)
+				v[4].Color = Color3.fromRGB(99, 54, 128)
+			else
+				v[3].Color = Color3.fromRGB(60, 60, 60)
+				v[4].Color = Color3.fromRGB(40, 40, 40)
+			end
+		end
+		
+		for k, v in pairs(dropboxes) do
+			if tab == v[4] and not colorpickeropen then
+				local localdpopen = false
+				if dropboxopen and v == dropboxthatsopen then 
+					localdpopen = true
+				end
+				if mouse_pressed_in(v[7], v[8], v[10], v[9]) then
+					if v[1] == false then 
+						if dropboxopen == false or (dropboxopen and localdpopen) then 
+							v[1] = true 
+							v[6].Text = "v"
+						end
+					else
+						v[1] = false
+						v[6].Text = ">"
+					end
+				else
+					if v[1] then
+						for i = 1, v[3] do
+							if mouse_pressed_in(v[7], v[8] + (20 * i), v[10], v[9]) then
+								v[2] = i
+								v[11].Text = v[12][i]
+								if k == "config.plist.ptype" then
+									local fuck = {priorityplyrs, friendplyrs}
+									if v[2] == 1 then
+										for k1, v1 in pairs(fuck) do
+											for k2, v2 in pairs(v1) do
+												if v2 == selected_plyr.Name then
+													table.remove(v1, k2)
+												end
+											end
+										end
+									elseif v[2] == 2 then
+										for k1, v1 in pairs(fuck) do
+											for k2, v2 in pairs(v1) do
+												if v2 == selected_plyr.Name then
+													table.remove(v1, k2)
+												end
+											end
+										end
+										table.insert(friendplyrs, selected_plyr.Name)
+									else
+										for k1, v1 in pairs(fuck) do
+											for k2, v2 in pairs(v1) do
+												if v2 == selected_plyr.Name then
+													table.remove(v1, k2)
+												end
+											end
+										end
+										table.insert(priorityplyrs, selected_plyr.Name)
+									end
+								end
+							end
+						end
+						v[1] = false
+						v[6].Text = ">"
+					end
+				end
+			end
+			if v[1] == false then 
+				for k1, v1 in pairs(v[5]) do
+					v1.Visible = false
+				end
+			end
+		end
+		
+		for k, v in pairs(colorpickers) do 
+			if tab == v[1] and not colorpickeropen and not dropboxopen then 
+				if mouse_pressed_in(v[2], v[3], v[4], v[5]) then
+					v[11] = true 
+					set_colorpicker(true, mouse.X - 1, mouse.Y + 35, v[6], v[7], v[8], v[9], v[12])
+				end
+			end
+		end
+		for k, v in pairs(keybinds) do 
+			if tab == v[1] and not colorpickeropen and not dropboxopen then
+				if mouse_pressed_in(v[2], v[3], v[4], v[5]) and not v[8] then
+					v[8] = true
+					v[7].Color = Color3.fromRGB(127, 72, 163)
+				elseif v[8] == true then
+					v[8] = false
+					v[7].Color = Color3.fromRGB(60, 60, 60)
+				end
+			end
+		end
+	
+		if tab == 5 then
+			local amount1 = (plist_pgnum - 1)* 11
+			local players1 = game:GetService("Players"):GetPlayers()
+			local maxplys1 = 0
+			for k, v in pairs(players1) do
+				maxplys1 = k
+			end
+			local plisty1 = {}
+			local times1 = 0
+			for k, v in pairs(players1) do
+				times1 = times1 + 1
+				if times1 > amount1 and times1 < amount1 + 12 then
+					table.insert(plisty1, v)
+				end
+			end
+			
+			for i = 1, 11 do
+				if mouse_pressed_in(24, 83 + ((i - 1) * 20), 366, 20) then
+					if plisty1[i]  then
+						selected_plyr = plisty1[i]
+						if table_contains(friendplyrs, selected_plyr.Name) then
+							dropboxes["config.plist.ptype"][2] = 2
+							dropboxes["config.plist.ptype"][11].Text = dropboxes["config.plist.ptype"][12][2]
+						elseif table_contains(priorityplyrs, selected_plyr.Name) then
+							dropboxes["config.plist.ptype"][2] = 3
+							dropboxes["config.plist.ptype"][11].Text = dropboxes["config.plist.ptype"][12][3]
+						else
+							dropboxes["config.plist.ptype"][2] = 1
+							dropboxes["config.plist.ptype"][11].Text = dropboxes["config.plist.ptype"][12][1]
+						end
+					end
+				end
+			end
+		end
+		
+		if colorpickeropen then
+			if not mouse_pressed_in_colorpicker(0, 0, cpp.w, cpp.h) then
+				for k1, v1 in pairs(colorpickers) do 
+					if v1[11] then
+						v1[11] = false
+						set_colorpicker(false, 0, 0, 0, 0, 0, 255, "nigger")
+					end
+				end
+			end
+		end
+		
+		for k, v in pairs(buttons) do
+			if tab == v[1] then
+				if mouse_pressed_in(v[2], v[3], v[4], v[5]) and not colorpickeropen and not dropboxopen then
+					if v == buttons["config.extra.godmode"] then
+						MainPlayer.Character.PrimaryPart:Destroy()--remove part exploit (laxative)
+					end
+                    local Camera = workspace.CurrentCamera
+                    if v == buttons["config.plist.sp"] then
+						if selected_plyr then
+                            local part = selected_plyr.Character:FindFirstChildOfClass("Humanoid")
+							Camera.CameraSubject = part
+						end
+					end
+                    if v == buttons["config.plist.cu"] then
+                        if selected_plyr then
+                            setclipboard(tostring(selected_plyr.Name))
+                        end
+                    end
+					if v == buttons["config.plist.tp"] then
+						if selected_plyr then
+							MainPlayer.Character.PrimaryPart.CFrame = selected_plyr.Character.PrimaryPart.CFrame
+						end
+					end
+					if v == buttons["config.extra.newserver"] then
+						game:GetService("TeleportService"):Teleport(game.PlaceId, MainPlayer)
+					end
+                    if v == buttons["config.plist.back"] then
+						plist_pgnum = plist_pgnum - 1
+					end
+					if v == buttons["config.plist.next"] then
+						plist_pgnum = plist_pgnum + 1
+					end
+
+                    if v == buttons["config.configs.save"] then
+						print("save config ".. dropboxes["config.configs.configs"][2])
+						writefile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", "bitch bot config\ncheat made by bitch, nate, and zarzel\n\n")
+						appendfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", "toggles {\n")
+						for k, v in pairs(toggles) do
+							local value = 0
+							if v[1] then
+								value = 1
+							else
+								value = 0
+							end
+							appendfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", k.." "..tostring(value).."\n")
+						end
+						appendfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", "}\n")
+						
+						appendfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", "sliders {\n")
+						for k, v in pairs(sliders) do
+							if k == "colorpicker.r" or k == "colorpicker.g" or k == "colorpicker.b" or k == "colorpicker.a" then
+							else
+								appendfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", k.." "..tostring(v[1]).."\n")
+							end
+						end
+						appendfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", "}\n")
+						
+						appendfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", "dropboxes {\n")
+						for k, v in pairs(dropboxes) do
+							if k ~= "config.configs.configs" and k ~= "config.plist.ptype" then
+								appendfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", k.." "..tostring(v[2]).."\n")
+							end
+						end
+						appendfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", "}\n")
+						
+						appendfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", "colorpickers {\n")
+						for k, v in pairs(colorpickers) do
+							appendfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", k.." "..tostring(v[6]).." "..tostring(v[7]).." "..tostring(v[8]).." "..tostring(v[9]).."\n")
+						end
+						appendfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", "}\n")
+						
+						appendfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", "keybinds {\n")
+						for k, v in pairs(keybinds) do
+							if v[9] == nil then
+								appendfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", k.." nil\n")
+							else
+								appendfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", k.." "..tostring(v[9].Value).."\n")
+							end
+						end
+						appendfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb", "}\n")
+					end
+					if v == buttons["config.configs.load"] then
+						print("load config ".. dropboxes["config.configs.configs"][2])
+						local loadedcfg = readfile("bbconfigs/config"..tostring(dropboxes["config.configs.configs"][2])..".bb")
+						local lines = {}
+						for s in loadedcfg:gmatch("[^\r\n]+") do
+							table.insert(lines, s)
+						end
+						if lines[1] == "bitch bot config" then
+							local toggleslinestart
+							local toggleslinestop
+							
+							local sliderslinestart
+							local sliderslinestop
+							
+							local dropboxeslinestart
+							local dropboxeslinestop
+							
+							local colorpickerslinestart
+							local colorpickerslinestop
+							
+							local keybindslinestart
+							local keybindslinestop
+							for k, v in pairs(lines) do
+								if v == "toggles {" then
+									toggleslinestart = k
+								end 
+								if v == "sliders {" then
+									sliderslinestart = k
+								end
+								if v == "dropboxes {" then
+									dropboxeslinestart = k
+								end
+								if v == "colorpickers {" then
+									colorpickerslinestart = k
+								end
+								if v == "keybinds {" then
+									keybindslinestart = k
+								end
+							end
+							
+							for i = toggleslinestart, table.getn(lines) do
+								if lines[i] == "}" then
+									toggleslinestop = i
+									break
+								end
+							end
+							for i = toggleslinestart + 1, toggleslinestop - 1 do
+								local temp = {}
+								for token in string.gmatch(lines[i], "[^%s]+") do
+									table.insert(temp, token)
+								end
+								local onornot = false
+								if temp[2] == "1" then
+									onornot = true
+								end
+								if toggles[temp[1]]  then
+									toggles[temp[1]][1] = onornot 
+								end
+							end
+							for k, v in pairs(toggles) do
+								if v[1] == true then
+									v[3].Color = Color3.fromRGB(127, 72, 163)
+									v[4].Color = Color3.fromRGB(99, 54, 128)
+								else
+									v[3].Color = Color3.fromRGB(60, 60, 60)
+									v[4].Color = Color3.fromRGB(40, 40, 40)
+								end
+							end
+
+							for i = sliderslinestart, table.getn(lines) do
+								if lines[i] == "}" then
+									sliderslinestop = i
+									break
+								end
+							end
+							for i = sliderslinestart + 1, sliderslinestop - 1 do
+								local temp = {}
+								for token in string.gmatch(lines[i], "[^%s]+") do
+									table.insert(temp, token)
+								end
+								if sliders[temp[1]]  then
+									sliders[temp[1]][1] = tonumber(temp[2])
+									sliders[temp[1]][5].Size = Vector2.new((sliders[temp[1]][1] - sliders[temp[1]][2]) / (sliders[temp[1]][3] - sliders[temp[1]][2]) * sliders[temp[1]][10], 12)
+									sliders[temp[1]][6].Size = Vector2.new((sliders[temp[1]][1] - sliders[temp[1]][2]) / (sliders[temp[1]][3] - sliders[temp[1]][2]) * sliders[temp[1]][10], 12)
+									sliders[temp[1]][11].Text = tostring(sliders[temp[1]][1])
+								end
+							end
+
+							for i = dropboxeslinestart, table.getn(lines) do
+								if lines[i] == "}" then
+									dropboxeslinestop = i
+									break
+								end
+							end
+							for i = dropboxeslinestart + 1, dropboxeslinestop - 1 do
+								local temp = {}
+								for token in string.gmatch(lines[i], "[^%s]+") do
+									table.insert(temp, token)
+								end
+								if dropboxes[temp[1]]  and temp[1] ~= "config.configs.configs" and temp[1] ~= "config.plist.ptype" then
+									dropboxes[temp[1]][2] = tonumber(temp[2])
+									dropboxes[temp[1]][11].Text = dropboxes[temp[1]][12][tonumber(temp[2])]
+								end
+							end
+
+							for i = colorpickerslinestart, table.getn(lines) do
+								if lines[i] == "}" then
+									colorpickerslinestop = i
+									break
+								end
+							end
+							for i = colorpickerslinestart + 1, colorpickerslinestop - 1 do
+								local temp = {}
+								for token in string.gmatch(lines[i], "[^%s]+") do
+									table.insert(temp, token)
+								end
+								if colorpickers[temp[1]]  then
+									colorpickers[temp[1]][6] = tonumber(temp[2])
+									colorpickers[temp[1]][7] = tonumber(temp[3])
+									colorpickers[temp[1]][8] = tonumber(temp[4])
+									colorpickers[temp[1]][9] = tonumber(temp[5])
+									
+									colorpickers[temp[1]][10][1].Color = Color3.fromRGB(colorpickers[temp[1]][6], colorpickers[temp[1]][7], colorpickers[temp[1]][8])
+									for i = 1, 2 do 
+										colorpickers[temp[1]][10][1 + i].Color = Color3.fromRGB(colorpickers[temp[1]][6]- 30, colorpickers[temp[1]][7] - 30, colorpickers[temp[1]][8] - 30)
+									end
+								end
+							end
+							
+							for i = keybindslinestart, table.getn(lines) do
+								if lines[i] == "}" then
+									keybindslinestop = i
+									break
+								end
+							end
+							for i = keybindslinestart + 1, keybindslinestop - 1 do
+								local temp = {}
+								for token in string.gmatch(lines[i], "[^%s]+") do
+									table.insert(temp, token)
+								end
+								
+								if temp[2] ~= "nil" and keybinds[temp[1]]  then
+									keybinds[temp[1]][9] = keyz[tonumber(temp[2])]
+									local _key = tostring(keyz[tonumber(temp[2])]).. "."
+									local _key = _key:gsub("%.", ",")
+									local keyname = nil
+									local looptime = 0
+									for w in _key:gmatch("(.-),") do 
+										looptime = looptime + 1
+										if looptime == 3 then 
+											keyname = w
+										end
+									end
+									
+									if string.match(keyname, "Keypad") then
+										keyname = string.gsub(keyname, "Keypad", "")
+									end
+									if keyname == "Unknown" then 
+										keyname = "None"
+										keyenum = nil
+									end
+									for k, v in pairs(keynamereturn) do 
+										if keynamereturn[keyname]  then
+											keyname = keynamereturn[keyname]
+										end
+									end
+									keybinds[temp[1]][6].Text = keyname
+								else
+									keybinds[temp[1]][9] = nil
+									keybinds[temp[1]][6].Text = "None"
+								end
+							end
+						end
+					end
+					v[6].Color = Color3.fromRGB(109, 64, 138)
+					v[7].Color = Color3.fromRGB(137, 82, 173)
+					wait(0.2)
+					v[6].Color = Color3.fromRGB(99, 54, 128)
+					v[7].Color = Color3.fromRGB(127, 72, 163)
+				end
+			elseif v[1] == 0 and colorpickeropen then 
+				if mouse_pressed_in_colorpicker(v[2], v[3], v[4], v[5]) then
+					local cpthatison = nil
+					for k1, v1 in pairs(colorpickers) do 
+						if v1[11] then
+							cpthatison = v1
+						end
+					end
+					if v == buttons["colorpicker.close"] then 
+						cpthatison[11] = false
+						set_colorpicker(false, 0, 0, 0, 0, 0, 255, "nigger")
+					elseif v == buttons["colorpicker.apply"] then
+						set_old_color(sliders["colorpicker.r"][1], sliders["colorpicker.g"][1], sliders["colorpicker.b"][1], sliders["colorpicker.a"][1])
+						cpthatison[6] = sliders["colorpicker.r"][1]
+						cpthatison[7] = sliders["colorpicker.g"][1]
+						cpthatison[8] = sliders["colorpicker.b"][1]
+						cpthatison[9] = sliders["colorpicker.a"][1]
+						
+						cpthatison[10][1].Color = Color3.fromRGB(cpthatison[6], cpthatison[7], cpthatison[8])
+						for i = 1, 2 do 
+							cpthatison[10][1 + i].Color = Color3.fromRGB(cpthatison[6]- 30, cpthatison[7] - 30, cpthatison[8] - 30)
+						end
+					end
+					
+					v[6].Color = Color3.fromRGB(109, 64, 138)
+					v[7].Color = Color3.fromRGB(137, 82, 173)
+					wait(0.2)
+					v[6].Color = Color3.fromRGB(99, 54, 128)
+					v[7].Color = Color3.fromRGB(127, 72, 163)
+				end	
+			end
+		end
+	end
+end)
+	
+local keybindsthing = Input.InputBegan:Connect(function(key)
+	if menuopen then
+		for k, v in pairs(keybinds) do
+			if v[8] then
+				if key.KeyCode.Value == 0 then
+					return
+				else
+					v[6].Text = tostring(keyenum2name(key))
+					v[7].Color = Color3.fromRGB(60, 60, 60)
+					v[8] = false
+					if keyenum2name(key) == "None" then
+						v[9] = nil
+					else
+						v[9] = key.KeyCode
+					end
+				end
+			end
+		end
+	end
+end)
+	
+mouse.Button1Up:Connect(function()
+	mouseup = true
+end)
+
+local dropboxopen = false
+local fc = 0 
+
+game:GetService("RunService").RenderStepped:Connect(function()
+	if menuopen then
+		if ((mouse.X > mp.x and mouse.X < mp.x + 600 and mouse.y > mp.y - 36 and mouse.Y < mp.y - 11) or dragging) and dontdrag == false and colorpickeropen == false then
+			if mouseup == false then
+				if dragging == false then
+					clickspot_x = mouse.X
+					clickspot_y = mouse.Y - 36 
+					original_menu_X = mp.x
+					original_menu_y = mp.y
+					dragging = true
+				end
+				mp.x = (original_menu_X - clickspot_x) + mouse.X
+				mp.y = (original_menu_y - clickspot_y) + mouse.Y - 36
+				set_menu_pos(mp.x, mp.y)
+			else
+				dragging = false
+			end
+		elseif mouseup == false then
+			dontdrag = true
+		elseif mouseup then
+			dontdrag = false
+		end
+		
+		if cpp.x < 0 then
+			cpp.x = 0
+		end
+		if mouse.ViewSizeX - cpp.w < cpp.x then
+			cpp.x = mouse.ViewSizeX - cpp.w
+		end
+		if cpp.y < 0 then
+			cpp.y = 0
+		end
+		if (mouse.ViewSizeY + 72) - cpp.h < cpp.y then
+			cpp.y = (mouse.ViewSizeY + 72) - cpp.h
+		end
+		
+		set_colorpicker_pos(cpp.x, cpp.y)
+		set_menu_mouse_pos(mouse.X, mouse.Y)
+		
+		
+		for i = 1, 5 do
+			if tab == i then
+				bbmenu[tostring(14 + i)].Visible = false
+				bbmenu[tostring(25 + i)].Visible = true
+			else
+				bbmenu[tostring(14 + i)].Visible = true
+				bbmenu[tostring(25 + i)].Visible = false
+			end
+		end
+		
+		for k, v in pairs(sliders) do
+			if tab == v[4] then
+				if mouse_pressed_in(v[7] - 6, v[8], v[10] + 12, v[9]) and mouseup == false and colorpickeropen == false and dropboxopen == false then
+					v[1] = math.floor( (((mouse.X - mp.x - v[7] + (v[2] * 2)) / v[10]) * (v[3] - v[2])))
+					if v[1] < v[2] then
+						v[1] = v[2]
+					elseif v[1] > v[3] then
+						v[1] = v[3]
+					end
+					v[5].Size = Vector2.new((v[1] - v[2]) / (v[3] - v[2]) * v[10], 12)
+					v[6].Size = Vector2.new((v[1] - v[2]) / (v[3] - v[2]) * v[10], 12)
+					v[11].Text = (v[1].. v[12])
+				end
+			elseif v[4] == 0 and colorpickeropen then
+				if mouse_pressed_in_colorpicker(v[7] - 6, v[8], v[10] + 12, v[9]) and mouseup == false and colorpickeropen then
+					v[1] = math.floor( (((mouse.X - cpp.x - v[7] + (v[2] * 2)) / v[10]) * (v[3] - v[2])))
+					if v[1] < v[2] then
+						v[1] = v[2]
+					elseif v[1] > v[3] then
+						v[1] = v[3]
+					end
+					v[5].Size = Vector2.new((v[1] - v[2]) / (v[3] - v[2]) * v[10], 12)
+					v[6].Size = Vector2.new((v[1] - v[2]) / (v[3] - v[2]) * v[10], 12)
+					v[11].Text = tostring(v[1])
+					
+					set_new_color(sliders["colorpicker.r"][1], sliders["colorpicker.g"][1], sliders["colorpicker.b"][1], sliders["colorpicker.a"][1])
+				end
+			end
+		end
+		
+		local foundopendropbox = false
+		for k, v in pairs(dropboxes) do
+			if v[1] == true then
+				dropboxopen = true
+				foundopendropbox = true
+				break 
+			end
+		end
+		if foundopendropbox == false and dropboxopen then 
+			fc = fc + 1
+		end
+		if fc == 50 then
+			fc = 0
+			dropboxopen = false
+		end
+	end
+end)
+
+local function Lerp(delta, from, to)
+	if (delta > 1) then 
+		return to
+	end
+	if (delta < 0) then 
+		return from 
+	end
+	return from + ( to - from ) * delta
+end
+
+local function ColorRange(value, ranges, div)
+	div = div or 1
+	if value <= ranges[1].start then return ranges[1].color end
+	if value >= ranges[#ranges].start then return ranges[#ranges].color end
+	
+	local selected = #ranges
+	for i = 1, #ranges - 1 do
+		if value < ranges[i + 1].start then
+			selected = i
+			break
+		end
+	end
+	
+	local minColor = ranges[selected]
+	local maxColor = ranges[selected + 1]
+	
+	local lerpValue = (value - minColor.start) / (maxColor.start - minColor.start)
+	
+	return Color3.new(
+		Lerp(lerpValue, minColor.color.r, maxColor.color.r)/div, 
+		Lerp(lerpValue, minColor.color.g, maxColor.color.g)/div,
+		Lerp(lerpValue, minColor.color.b, maxColor.color.b)/div
+	)
+end
+
+local statuses = {friendplyrs, priorityplyrs}
+
+--MainPlayer.Idled:Connect(function()
+--	game:GetService("VirtualUser"):CaptureController()
+--	game:GetService("VirtualUser"):ClickButton2(Vector2.new())
+--end)
+
+-- dark grey = 25, 25, 25
+-- lighter grey = 60, 60, 60
+return menuopen, bbmenu, bbwatermark, bbstatuses, bbtargets, statuses, toggles, sliders, buttons, dropboxes, colorpickers

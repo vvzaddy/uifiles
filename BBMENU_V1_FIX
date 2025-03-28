@@ -754,7 +754,7 @@ local function add_keybind(valuename, keyenum, x, y, tab, postable)
 		end
 	end
 	
-	keybinds[valuename] = {activetab, 18 + x, 63 + y, 48, 20, text, outerbox, false, keyenum}
+	keybinds[valuename] = {activetab, 18 + x, 63 + y, 48, 20, text, outerbox, false, keyenum, valuename}
 end
 
 local plist_gui = {}
@@ -2092,6 +2092,7 @@ local keybindsthing = Input.InputBegan:Connect(function(key)
 				else
 					v[6].Text = tostring(keyenum2name(key))
 					v[7].Color = Color3.fromRGB(60, 60, 60)
+					v[8] = false
 					if keyenum2name(key) == "None" then
 						v[9] = nil
 					else

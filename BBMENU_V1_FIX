@@ -754,7 +754,7 @@ local function add_keybind(valuename, keyenum, x, y, tab, postable)
 		end
 	end
 	
-	keybinds[valuename] = {activetab, 18 + x, 63 + y, 48, 20, text, outerbox, false, keyenum, valuename}
+	keybinds[valuename] = {activetab, 18 + x, 63 + y, 48, 20, text, outerbox, false, keyenum, false}
 end
 
 local plist_gui = {}

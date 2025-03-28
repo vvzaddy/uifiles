@@ -2254,4 +2254,4 @@ local statuses = {friendplyrs, priorityplyrs}
 -- dark grey = 25, 25, 25
 -- lighter grey = 60, 60, 60
 local FinalMenu = {menuopen, bbmenu, bbwatermark, bbstatuses, bbtargets, statuses, toggles, sliders, buttons, dropboxes, colorpickers}
-return FinalMenu
+getgenv().Menu = FinalMenu

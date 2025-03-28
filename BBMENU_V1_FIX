@@ -841,45 +841,45 @@ end
 
 --tab 1 (legit)
 add_group_box("aim assist", 4, 6, 182, 347, tab1, tab1pos)
-add_toggle("legit.aim.enabled", false, "aim assist", 12, 26, tab1, tab1pos)
-add_keybind("legit.aim.enabled.key", Enum.KeyCode.E, 12+117, 24, tab1, tab1pos)
-add_slider("legit.aim.smooth", 0, 100, 10, "smoothing", 12, 48, tab1, tab1pos, 0, "%")
-add_slider("legit.aim.fov", 0, 500, 50, "aimbot fov", 12, 88, tab1, tab1pos, 0, "°")
+add_toggle("c:COMBAT/AIM/ENABLED", false, "aim assist", 12, 26, tab1, tab1pos)
+add_keybind("c:COMBAT/AIM/ENABLED<key>", Enum.KeyCode.E, 12+117, 24, tab1, tab1pos)
+add_slider("c:COMBAT/AIM/SMOOTHING", 0, 100, 10, "smoothing", 12, 48, tab1, tab1pos, 0, "%")
+add_slider("c:COMBAT/AIM/AIMFOV", 0, 500, 50, "aimbot fov", 12, 88, tab1, tab1pos, 0, "°")
 --FUCKING ADD DYNAMIC OR WHAT?
-add_toggle("legit.aim.forcecam", false, "force camera", 12, 88+42, tab1, tab1pos, true)
-add_toggle("legit.aim.targetteam", false, "target teammates", 12, 88+42+42+42+22, tab1, tab1pos)
-add_toggle("legit.aim.forcepriority", false, "priority only", 12, 88+42+42+42+22+22, tab1, tab1pos)
-add_toggle("legit.aim.ignorefriends", false, "ignore friends", 12, 88+42+42+42+22+22+22, tab1, tab1pos)
+add_toggle("c:COMBAT/AIM/FORCECAMERA", false, "force camera", 12, 88+42, tab1, tab1pos, true)
+add_toggle("c:COMBAT/AIM/TARGETTEAM", false, "target teammates", 12, 88+42+42+42+22, tab1, tab1pos)
+add_toggle("c:COMBAT/AIM/FORCEPRIORITY", false, "priority only", 12, 88+42+42+42+22+22, tab1, tab1pos)
+add_toggle("c:COMBAT/AIM/IGNOREFRIENDS", false, "ignore friends", 12, 88+42+42+42+22+22+22, tab1, tab1pos)
 
 add_group_box("auto shoot", 192, 6, 182, 185, tab1, tab1pos)
-add_toggle("legit.auto.enabled", false, "auto shoot", 200, 26, tab1, tab1pos)
-add_keybind("legit.auto.key", Enum.KeyCode.M, 319, 24, tab1, tab1pos)
-add_slider("legit.auto.threshold", 5, 50, 30, "shot threshold", 200, 26+22+42, tab1, tab1pos, 0, " px")
-add_slider("legit.auto.delay", 0, 1000, 120, "shot delay", 200, 26+22+42+42, tab1, tab1pos, 0, " ms")
-add_toggle("legit.auto.shoot", false, "ignore hitbox", 200, 26+22+42+42+22+22, tab1, tab1pos)
+add_toggle("c:COMBAT/AUTOSHOOT/ENABLED", false, "auto shoot", 200, 26, tab1, tab1pos)
+add_keybind("c:COMBAT/AUTOSHOOT/ENABLED<key>", Enum.KeyCode.M, 319, 24, tab1, tab1pos)
+add_slider("c:COMBAT/AUTOSHOOT/THRESHOLD", 5, 50, 30, "shot threshold", 200, 26+22+42, tab1, tab1pos, 0, " px")
+add_slider("c:COMBAT/AUTOSHOOT/DELAY", 0, 1000, 120, "shot delay", 200, 26+22+42+42, tab1, tab1pos, 0, " ms")
+add_toggle("c:COMBAT/AUTOSHOOT/IGNOREHITBOX", false, "ignore hitbox", 200, 26+22+42+42+22+22, tab1, tab1pos)
 
 add_group_box("player mitigations", 192, 209, 182, 144, tab1, tab1pos)
-add_toggle("legit.mitigations.shoot", false, "velocity delay", 200, 209+22, tab1, tab1pos)
-add_toggle("legit.mitigations.gyrostability", false, "position stabilizer", 200, 209+25+42, tab1, tab1pos, true)
-add_toggle("legit.mitigations.forceyaw", false, "force yaw", 200, 209+25+22+42, tab1, tab1pos)
+add_toggle("c:COMBAT/MITIGATE/VELOCITY", false, "velocity delay", 200, 209+22, tab1, tab1pos)
+add_toggle("c:COMBAT/MITIGATE/STABILIZE", false, "position stabilizer", 200, 209+25+42, tab1, tab1pos, true)
+add_toggle("c:COMBAT/MITIGATE/FORCEYAW", false, "force yaw", 200, 209+25+22+42, tab1, tab1pos)
 
 add_group_box("silent aim", 381, 6, 182, 160, tab1, tab1pos)
-add_toggle("legit.silent.enabled", false, "silent aim", 389, 26, tab1, tab1pos, true)-- due to fuckers finding out how to detect newcclosures
-add_slider("legit.silent.fov", 0, 300, 20, "silent fov", 389, 26+22, tab1, tab1pos, 0, "°")
-add_slider("legit.silent.chance", 1, 100, 50, "hit chance", 389, 26+22+42, tab1, tab1pos, 0, "%")
+add_toggle("c:COMBAT/SILENT/ENABLED", false, "silent aim", 389, 26, tab1, tab1pos, true)-- due to fuckers finding out how to detect newcclosures
+add_slider("c:COMBAT/SILENT/SILENTFOV", 0, 300, 20, "silent fov", 389, 26+22, tab1, tab1pos, 0, "°")
+add_slider("c:COMBAT/SILENT/HITCHANCE", 1, 100, 50, "hit chance", 389, 26+22+42, tab1, tab1pos, 0, "%")
 
 add_group_box("raycast", 381, 185, 182, 347-179, tab1, tab1pos)
-add_toggle("legit.methods.mouseredir", false, "mouse redirection", 389, 205+22+22, tab1, tab1pos, true)-- due to fuckers finding out how to detect newcclosures
-add_toggle("legit.methods.visiblecheck", false, "visible check", 389, 205+22+22+22, tab1, tab1pos)-- due to fuckers finding out how to detect newcclosures
-add_toggle("legit.methods.ignoreinvis", false, "ignore invisible", 389, 205+22+22+22+22, tab1, tab1pos)-- due to fuckers finding out how to detect newcclosures
+add_toggle("c:COMBAT/RAYCAST/MOUSEREDIRECT", false, "mouse redirection", 389, 205+22+22, tab1, tab1pos, true)-- due to fuckers finding out how to detect newcclosures
+add_toggle("c:COMBAT/RAYCAST/VISIBLECHECK", false, "visible check", 389, 205+22+22+22, tab1, tab1pos)-- due to fuckers finding out how to detect newcclosures
+add_toggle("c:COMBAT/RAYCAST/IGNOREINVISIBLE", false, "ignore invisible", 389, 205+22+22+22+22, tab1, tab1pos)-- due to fuckers finding out how to detect newcclosures
 
 --COMBAT ZINDEX
-add_dropbox("legit.aim.priority", 1, "closest,head,torso,pelvis", "hitbox priority", 12, 88+42+42+22, tab1, tab1pos, 0)
-add_dropbox("legit.aim.keybind", 3, "aimkey,left mouse,right mouse", "aimbot keybind", 12, 88+42+22, tab1, tab1pos, 0)
-add_dropbox("legit.auto.priority", 1, "aim assist,head,torso", "hitbox priority", 200, 26+22, tab1, tab1pos, 0)
-add_dropbox("legit.methods.silentmethod", 1, "raycast,findpartonray,ignorelist,whitelist", "silent method", 389, 205, tab1, tab1pos, 0)
-add_dropbox("legit.mitigations.delayvelocity", 3, "off,low latency (>100),high latency(<150),predictive", "", 200, 209+25, tab1, tab1pos, 0)
-add_dropbox("legit.silent.priority", 1, "head,torso,pelvis", "hitbox priority", 389, 26+22+42+42, tab1, tab1pos, 0)
+add_dropbox("c:COMBAT/AIM/HITBOX", 1, "closest,head,torso,pelvis", "hitbox priority", 12, 88+42+42+22, tab1, tab1pos, 0)
+add_dropbox("c:COMBAT/AIM/AIMKEY", 3, "aimkey,left mouse,right mouse", "aimbot keybind", 12, 88+42+22, tab1, tab1pos, 0)
+add_dropbox("c:COMBAT/AUTOSHOOT/HITBOX", 1, "aim assist,silent,any,head,torso", "hitbox priority", 200, 26+22, tab1, tab1pos, 0)
+add_dropbox("c:COMBAT/RAYCAST/METHOD", 1, "raycast,findpartonray,ignorelist,whitelist", "silent method", 389, 205, tab1, tab1pos, 0)
+add_dropbox("c:COMBAT/MITIGATE/TIMING", 3, "off,low latency (>100),high latency(<150),predictive", "", 200, 209+25, tab1, tab1pos, 0)
+add_dropbox("c:COMBAT/SILENT/HITBOX", 1, "head,torso,pelvis", "hitbox priority", 389, 26+22+42+42, tab1, tab1pos, 0)
 
 --tab 2 (visuals)
 add_group_box("properties", 4, 6, 181, 347, tab2, tab2pos)

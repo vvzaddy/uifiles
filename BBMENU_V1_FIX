@@ -157,18 +157,18 @@ end
 --[[
 local function create_notification_frame()
 	drawcount = 0
-	draw_filled_rect(true, omp.x, omp.y, omp.w, omp.h, 99, 54, 128, 255, renderednotification)
-	draw_outlined_rect(true, omp.x, omp.y, omp.w, omp.h, 25, 25, 25, 255, renderednotification)
-	draw_outlined_rect(true, omp.x + 1, omp.y + 1, omp.w - 2, omp.h - 2, 67, 67, 67, 255, renderednotification)
+	draw_filled_rect(true, kt_mp.x, kt_mp.y, kt_mp.w, kt_mp.h, 99, 54, 128, 255, renderednotification)
+	draw_outlined_rect(true, kt_mp.x, kt_mp.y, kt_mp.w, kt_mp.h, 25, 25, 25, 255, renderednotification)
+	draw_outlined_rect(true, kt_mp.x + 1, kt_mp.y + 1, kt_mp.w - 2, kt_mp.h - 2, 67, 67, 67, 255, renderednotification)
 	for i = 1, 3 do
-		draw_outlined_rect(true, omp.x + 1 + i, omp.y + 1 + i, omp.w - 2 - (i * 2), omp.h - 2 - (i * 2), 40, 40, 40, 255, renderednotification)
+		draw_outlined_rect(true, kt_mp.x + 1 + i, kt_mp.y + 1 + i, kt_mp.w - 2 - (i * 2), kt_mp.h - 2 - (i * 2), 40, 40, 40, 255, renderednotification)
 	end
-	draw_outlined_rect(true, omp.x + 5, omp.y + 5, omp.w - 10, omp.h - 10, 67, 67, 67, 255, renderednotification)
-	draw_outlined_rect(true, omp.x + 6, omp.y + 6, omp.w - 12, omp.h - 12, 25, 25, 25, 255, renderednotification)
-	draw_outlined_rect(true, omp.x + 7, omp.y + 7, omp.w - 14, omp.h - 14, framecolor[1], framecolor[2], framecolor[3], 255, renderednotification)
+	draw_outlined_rect(true, kt_mp.x + 5, kt_mp.y + 5, kt_mp.w - 10, kt_mp.h - 10, 67, 67, 67, 255, renderednotification)
+	draw_outlined_rect(true, kt_mp.x + 6, kt_mp.y + 6, kt_mp.w - 12, kt_mp.h - 12, 25, 25, 25, 255, renderednotification)
+	draw_outlined_rect(true, kt_mp.x + 7, kt_mp.y + 7, kt_mp.w - 14, kt_mp.h - 14, framecolor[1], framecolor[2], framecolor[3], 255, renderednotification)
 
 	for i, line in ipairs(framelines) do
-		draw_outlined_text(line, 2, true, omp.x + 10, omp.y, 13, false, 255, 255, 255, 255, 0, 0, 0, renderednotification)
+		draw_outlined_text(line, 2, true, kt_mp.x + 10, kt_mp.y, 13, false, 255, 255, 255, 255, 0, 0, 0, renderednotification)
 	end
 end
 ]]
@@ -319,66 +319,66 @@ btargettext = "name : 20CHARS\nhealth : 100/100\nteam : none\nstatus : priority\
 
 --the keybinds
 drawcount = 0
-draw_filled_rect(true, omp.x, omp.y, omp.w, omp.h, 99, 54, 128, 255, bbstatuses)
+draw_filled_rect(true, kt_mp.x, kt_mp.y, kt_mp.w, kt_mp.h, 99, 54, 128, 255, bbstatuses)
 -- inside
-draw_outlined_rect(true, omp.x, omp.y, omp.w, omp.h, 25, 25, 25, 255, bbstatuses)
-draw_outlined_rect(true, omp.x + 1, omp.y + 1, omp.w - 2, omp.h - 2, 67, 67, 67, 255, bbstatuses)
+draw_outlined_rect(true, kt_mp.x, kt_mp.y, kt_mp.w, kt_mp.h, 25, 25, 25, 255, bbstatuses)
+draw_outlined_rect(true, kt_mp.x + 1, kt_mp.y + 1, kt_mp.w - 2, kt_mp.h - 2, 67, 67, 67, 255, bbstatuses)
 for i = 1, 3 do
-	draw_outlined_rect(true, omp.x + 1 + i, omp.y + 1 + i, omp.w - 2 - (i * 2), omp.h - 2 - (i * 2), 40, 40, 40, 255, bbstatuses)
+	draw_outlined_rect(true, kt_mp.x + 1 + i, kt_mp.y + 1 + i, kt_mp.w - 2 - (i * 2), kt_mp.h - 2 - (i * 2), 40, 40, 40, 255, bbstatuses)
 end
-draw_outlined_rect(true, omp.x + 5, omp.y + 5, omp.w - 10, omp.h - 10, 67, 67, 67, 255, bbstatuses)
-draw_outlined_rect(true, omp.x + 6, omp.y + 6, omp.w - 12, omp.h - 12, 25, 25, 25, 255, bbstatuses)
-draw_outlined_rect(true, omp.x + 7, omp.y + 7, omp.w - 14, omp.h - 14, 127, 72, 163, 255, bbstatuses)
-draw_outlined_rect(true, omp.x + 11, omp.y + 23, omp.w - 22, omp.h - 34, 127, 72, 163, 255, bbstatuses)
-draw_outlined_rect(true, omp.x + 12, omp.y + 24, omp.w - 24, omp.h - 36, 25, 25, 25, 255, bbstatuses)
-draw_outlined_rect(true, omp.x + 13, omp.y + 25, omp.w - 26, omp.h - 38, 67, 67, 67, 255, bbstatuses)
-draw_filled_rect(true, omp.x + 14, omp.y + 26, omp.w - 28, omp.h - 40, 40, 40, 40, 255, bbstatuses)
-draw_outlined_text("status", 2, true, omp.x + 20, omp.y + 8, 13, false, 255, 255, 255, 255, 0, 0, 0, bbstatuses)
-draw_outlined_text(bstatustext2, 2, true, omp.x + 20, omp.y + 30, 13, false, 255, 255, 255, 255, 0, 0, 0, bbstatuses)--ehh its fucked but it works LOL
-draw_outlined_text(bstatustext2continued, 2, true, omp.x + 20, omp.y + 185, 13, false, 255, 255, 255, 255, 0, 0, 0, bbstatuses)--ehh its fucked but it works LOL
+draw_outlined_rect(true, kt_mp.x + 5, kt_mp.y + 5, kt_mp.w - 10, kt_mp.h - 10, 67, 67, 67, 255, bbstatuses)
+draw_outlined_rect(true, kt_mp.x + 6, kt_mp.y + 6, kt_mp.w - 12, kt_mp.h - 12, 25, 25, 25, 255, bbstatuses)
+draw_outlined_rect(true, kt_mp.x + 7, kt_mp.y + 7, kt_mp.w - 14, kt_mp.h - 14, 127, 72, 163, 255, bbstatuses)
+draw_outlined_rect(true, kt_mp.x + 11, kt_mp.y + 23, kt_mp.w - 22, kt_mp.h - 34, 127, 72, 163, 255, bbstatuses)
+draw_outlined_rect(true, kt_mp.x + 12, kt_mp.y + 24, kt_mp.w - 24, kt_mp.h - 36, 25, 25, 25, 255, bbstatuses)
+draw_outlined_rect(true, kt_mp.x + 13, kt_mp.y + 25, kt_mp.w - 26, kt_mp.h - 38, 67, 67, 67, 255, bbstatuses)
+draw_filled_rect(true, kt_mp.x + 14, kt_mp.y + 26, kt_mp.w - 28, kt_mp.h - 40, 40, 40, 40, 255, bbstatuses)
+draw_outlined_text("status", 2, true, kt_mp.x + 20, kt_mp.y + 8, 13, false, 255, 255, 255, 255, 0, 0, 0, bbstatuses)
+draw_outlined_text(bstatustext2, 2, true, kt_mp.x + 20, kt_mp.y + 30, 13, false, 255, 255, 255, 255, 0, 0, 0, bbstatuses)--ehh its fucked but it works LOL
+draw_outlined_text(bstatustext2continued, 2, true, kt_mp.x + 20, kt_mp.y + 185, 13, false, 255, 255, 255, 255, 0, 0, 0, bbstatuses)--ehh its fucked but it works LOL
 
-omp.w = 200
-omp.h = 130
-omp.x = math.floor(screen_w/2 + 1072)
-omp.y = math.floor(screen_h/2 - 50)
+kt_mp.w = 200
+kt_mp.h = 130
+kt_mp.x = math.floor(screen_w/2 + 1072)
+kt_mp.y = math.floor(screen_h/2 - 50)
 
 --the target info
 drawcount = 0
-draw_filled_rect(true, omp.x, omp.y, omp.w, omp.h, 99, 54, 128, 255, bbtargets)
-draw_outlined_rect(true, omp.x, omp.y, omp.w, omp.h, 25, 25, 25, 255, bbtargets)
-draw_outlined_rect(true, omp.x + 1, omp.y + 1, omp.w - 2, omp.h - 2, 67, 67, 67, 255, bbtargets)
+draw_filled_rect(true, kt_mp.x, kt_mp.y, kt_mp.w, kt_mp.h, 99, 54, 128, 255, bbtargets)
+draw_outlined_rect(true, kt_mp.x, kt_mp.y, kt_mp.w, kt_mp.h, 25, 25, 25, 255, bbtargets)
+draw_outlined_rect(true, kt_mp.x + 1, kt_mp.y + 1, kt_mp.w - 2, kt_mp.h - 2, 67, 67, 67, 255, bbtargets)
 for i = 1, 3 do
-	draw_outlined_rect(true, omp.x + 1 + i, omp.y + 1 + i, omp.w - 2 - (i * 2), omp.h - 2 - (i * 2), 40, 40, 40, 255, bbtargets)
+	draw_outlined_rect(true, kt_mp.x + 1 + i, kt_mp.y + 1 + i, kt_mp.w - 2 - (i * 2), kt_mp.h - 2 - (i * 2), 40, 40, 40, 255, bbtargets)
 end
-draw_outlined_rect(true, omp.x + 5, omp.y + 5, omp.w - 10, omp.h - 10, 67, 67, 67, 255, bbtargets)
-draw_outlined_rect(true, omp.x + 6, omp.y + 6, omp.w - 12, omp.h - 12, 25, 25, 25, 255, bbtargets)
-draw_outlined_rect(true, omp.x + 7, omp.y + 7, omp.w - 14, omp.h - 14, 127, 72, 163, 255, bbtargets)
+draw_outlined_rect(true, kt_mp.x + 5, kt_mp.y + 5, kt_mp.w - 10, kt_mp.h - 10, 67, 67, 67, 255, bbtargets)
+draw_outlined_rect(true, kt_mp.x + 6, kt_mp.y + 6, kt_mp.w - 12, kt_mp.h - 12, 25, 25, 25, 255, bbtargets)
+draw_outlined_rect(true, kt_mp.x + 7, kt_mp.y + 7, kt_mp.w - 14, kt_mp.h - 14, 127, 72, 163, 255, bbtargets)
 -- inside
-draw_outlined_rect(true, omp.x + 11, omp.y + 23, omp.w - 22, omp.h - 34, 127, 72, 163, 255, bbtargets)
-draw_outlined_rect(true, omp.x + 12, omp.y + 24, omp.w - 24, omp.h - 36, 25, 25, 25, 255, bbtargets)
-draw_outlined_rect(true, omp.x + 13, omp.y + 25, omp.w - 26, omp.h - 38, 67, 67, 67, 255, bbtargets)
-draw_filled_rect(true, omp.x + 14, omp.y + 26, omp.w - 28, omp.h - 40, 40, 40, 40, 255, bbtargets)
-draw_outlined_text("target info", 2, true, omp.x + 20, omp.y + 8, 13, false, 255, 255, 255, 255, 0, 0, 0, bbtargets)
-draw_outlined_text(btargettext, 2, true, omp.x + 20, omp.y + 30, 13, false, 255, 255, 255, 255, 0, 0, 0, bbtargets)--ehh its fucked but it works LOL
+draw_outlined_rect(true, kt_mp.x + 11, kt_mp.y + 23, kt_mp.w - 22, kt_mp.h - 34, 127, 72, 163, 255, bbtargets)
+draw_outlined_rect(true, kt_mp.x + 12, kt_mp.y + 24, kt_mp.w - 24, kt_mp.h - 36, 25, 25, 25, 255, bbtargets)
+draw_outlined_rect(true, kt_mp.x + 13, kt_mp.y + 25, kt_mp.w - 26, kt_mp.h - 38, 67, 67, 67, 255, bbtargets)
+draw_filled_rect(true, kt_mp.x + 14, kt_mp.y + 26, kt_mp.w - 28, kt_mp.h - 40, 40, 40, 40, 255, bbtargets)
+draw_outlined_text("target info", 2, true, kt_mp.x + 20, kt_mp.y + 8, 13, false, 255, 255, 255, 255, 0, 0, 0, bbtargets)
+draw_outlined_text(btargettext, 2, true, kt_mp.x + 20, kt_mp.y + 30, 13, false, 255, 255, 255, 255, 0, 0, 0, bbtargets)--ehh its fucked but it works LOL
 
-omp.w = 300
-omp.h = 31
-omp.x = math.floor(screen_w/2 - 1272)
-omp.y = math.floor(screen_h/2 - 89)
+kt_mp.w = 300
+kt_mp.h = 31
+kt_mp.x = math.floor(screen_w/2 - 1272)
+kt_mp.y = math.floor(screen_h/2 - 89)
 
 --watermark
 drawcount = 0
-draw_filled_rect(true, omp.x, omp.y, omp.w, omp.h, 99, 54, 128, 255, bbwatermark)
-draw_outlined_rect(true, omp.x, omp.y, omp.w, omp.h, 25, 25, 25, 255, bbwatermark)
-draw_outlined_rect(true, omp.x + 1, omp.y + 1, omp.w - 2, omp.h - 2, 67, 67, 67, 255, bbwatermark)
+draw_filled_rect(true, kt_mp.x, kt_mp.y, kt_mp.w, kt_mp.h, 99, 54, 128, 255, bbwatermark)
+draw_outlined_rect(true, kt_mp.x, kt_mp.y, kt_mp.w, kt_mp.h, 25, 25, 25, 255, bbwatermark)
+draw_outlined_rect(true, kt_mp.x + 1, kt_mp.y + 1, kt_mp.w - 2, kt_mp.h - 2, 67, 67, 67, 255, bbwatermark)
 for i = 1, 3 do
-	draw_outlined_rect(true, omp.x + 1 + i, omp.y + 1 + i, omp.w - 2 - (i * 2), omp.h - 2 - (i * 2), 40, 40, 40, 255, bbwatermark)
+	draw_outlined_rect(true, kt_mp.x + 1 + i, kt_mp.y + 1 + i, kt_mp.w - 2 - (i * 2), kt_mp.h - 2 - (i * 2), 40, 40, 40, 255, bbwatermark)
 end
-draw_outlined_rect(true, omp.x + 5, omp.y + 5, omp.w - 10, omp.h - 10, 67, 67, 67, 255, bbwatermark)
-draw_outlined_rect(true, omp.x + 6, omp.y + 6, omp.w - 12, omp.h - 12, 25, 25, 25, 255, bbwatermark)
-draw_outlined_rect(true, omp.x + 7, omp.y + 7, omp.w - 14, omp.h - 14, 127, 72, 163, 255, bbwatermark)
+draw_outlined_rect(true, kt_mp.x + 5, kt_mp.y + 5, kt_mp.w - 10, kt_mp.h - 10, 67, 67, 67, 255, bbwatermark)
+draw_outlined_rect(true, kt_mp.x + 6, kt_mp.y + 6, kt_mp.w - 12, kt_mp.h - 12, 25, 25, 25, 255, bbwatermark)
+draw_outlined_rect(true, kt_mp.x + 7, kt_mp.y + 7, kt_mp.w - 14, kt_mp.h - 14, 127, 72, 163, 255, bbwatermark)
 -- inside
-draw_outlined_text("vvshaxx | uid 1 | 999 fps | 1000 ping", 2, true, omp.x + 20, omp.y + 8, 13, false, 255, 255, 255, 255, 0, 0, 0, bbwatermark)
+draw_outlined_text("vvshaxx | uid 1 | 999 fps | 1000 ping", 2, true, kt_mp.x + 20, kt_mp.y + 8, 13, false, 255, 255, 255, 255, 0, 0, 0, bbwatermark)
 
 local tab1pos = {}
 local tab2pos = {}
@@ -924,9 +924,9 @@ add_toggle("visual.player.includeplayers", true, "include players", 389, 26+22+2
 add_button("visuals.player.removetextures", "remove textures", 389, 26+22+22+42+42+22+42+42+5, tab2, tab2pos, 1, 0)
 
 --VISUALS ZINDEX
-add_dropbox("visuals.lighting.tech", 1, "shadowmap,future,compatibility,voxel", "shadow tech", 12, 26+22+22, tab2, tab2pos, 0)
+add_dropbox("visuals.lighting.tech", 1, "shadowmap,future,ckt_mpatibility,voxel", "shadow tech", 12, 26+22+22, tab2, tab2pos, 0)
 add_dropbox("visuals.world.sky", 1, "off,cloudy skies,dark city,purple sky,nebula,stormy,twilight,vaporwave,vivid sky", "skybox", 200, 26+22+42+22+42, tab2, tab2pos, 0)--holy paste from 2020
-add_dropbox("visuals.player.companion", 1, "none,maxwell the cat,fucking rock", "pet companion", 389, 26+22+22+42+42+22+42, tab2, tab2pos, 0)--addmore later
+add_dropbox("visuals.player.ckt_mpanion", 1, "none,maxwell the cat,fucking rock", "pet ckt_mpanion", 389, 26+22+22+42+42+22+42, tab2, tab2pos, 0)--addmore later
 add_dropbox("visuals.player.outfitspoofer", 1, "off,black guy,zade", "outfit spoofer", 389, 26+22+22+42+42+22, tab2, tab2pos, 0)--addmore later
 
 --tab 3 (visuals)
@@ -1022,7 +1022,7 @@ add_toggle("misc.movement.circle", false, "c strafe", 12, 46+22+22+42+22, tab4, 
 add_keybind("misc.movement.circlekey", Enum.KeyCode.C, 130, 46+22+22+42+22, tab4, tab4pos)
 
 add_group_box("anti aim", 4, 225, 182, 128, tab4, tab4pos)
-add_toggle("misc.antiaim.enabled", false, "anti aim", 12, 205+22+22, tab4, tab4pos
+add_toggle("misc.antiaim.enabled", false, "anti aim", 12, 205+22+22, tab4, tab4pos)
 add_keybind("misc.antiaim.enabledkey", none, 12+121, 205+22+22, tab4, tab4pos)
 add_slider("misc.antiaim.spinrate", 0, 250, 40, "spin rate", 12, 205+26+26+26+42, tab4, tab4pos, 0)
 
@@ -1035,7 +1035,7 @@ add_toggle("misc.grief.grieffriends", false, "grief friends only", 200, 26+22+22
 add_slider("misc.grief.phraseamount", 0, 20, 6, "words", 200, 26+22+22+22+22+22+42, tab4, tab4pos, 1, " words")
 
 add_group_box("fake latency", 192, 225, 182, 128, tab4, tab4pos)
-add_toggle("misc.fakelag.enabled", false, "fake latency", 200, 205+22+22, tab4, tab4pos
+add_toggle("misc.fakelag.enabled", false, "fake latency", 200, 205+22+22, tab4, tab4pos)
 add_keybind("misc.fakelag.enabledkey", none, 200+121, 205+22+22, tab4, tab4pos)
 add_slider("misc.fakelag.chokehold", 0, 128, 17, "choke amount", 200, 205+22+22+22, tab4, tab4pos, 0)
 add_toggle("misc.fakelag.onlyinair", false, "only in air", 200, 205+22+22+42+22, tab4, tab4pos)
